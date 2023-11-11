@@ -74,7 +74,7 @@
             showElement(tabPane);
         }
     }
-    
+
     function setFormEventListener() {
         const form = document.getElementById("admin-form")
         form.addEventListener("submit", function(e) {
@@ -103,13 +103,13 @@
         const serviceType = values[2];
         const card = document.getElementById(values[0]);
         const tabPanes = card.getElementsByClassName("admin-tab-pane");
-        card.getElementsByClassName("admin-tab-pane").forEach((tabPane) => {
-            if (tabPane.classList.contains(serviceType+"-pane") && isActive(tabPane)) {
-                hideElement(tabPanes[j]);
+        for (let i = 0; i < tabPanes.length; i++){
+            if (tabPanes[i].classList.contains(serviceType+"-pane") && !isActive(tabPanes[i])) {
+                showElement(tabPanes[i]);
             } else {
-                showElement(tabPanes[j]);
+                hideElement(tabPanes[i]);
             }
-        });
+        }
     }
 
     function deleteService(id, name) {
@@ -121,7 +121,7 @@
         }
         hideElement(content[0]);
     }
-
+    
     function deleteEnvironment(id) {
         const environment = document.getElementById(id);
         if (confirm("Are you sure you want to delete environment")) {
@@ -131,13 +131,14 @@
 
     function toggleMenu(id) {
         const menu = document.getElementById(id);
-        menu.getElementsByClassName("more-content").forEach((c) => {
-            if (c.classList.contains("active")) {
-                hideElement(c);
+        const content = menu.getElementsByClassName("more-content");
+        for (let i = 0; i < content.length; i++) {
+            if (!content[i].classList.contains("active")) {
+                showElement(content[i], "block");
             } else {
-                showElement(c, "block");
+                hideElement(content[i]);
             }
-        });
+        }
     }
 
     async function submitForm(button) {

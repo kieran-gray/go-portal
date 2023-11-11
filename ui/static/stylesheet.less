@@ -1,6 +1,3 @@
-@default-text-color: #040e2b;
-@primary-white: #fff;
-@secondary-1: #ff8672;
 @ui-color: #ff8672;
 @light-ui-color: #ffbfa1;
 @dark-ui-color: #55180d;
@@ -8,18 +5,18 @@
 @light-api-color: #abe6f5;
 @dark-api-color: #050024;
 @primary-button-color: #0d6efd;
-@card-background-color: #ececec;
 @ok-color: #44bb77;
 @running-color: #1f75cb;
 @warning-color: #ffaa44;
 @critical-color: #ff5566;
-@kibana-color: #e44a90;
 @gitlab-color: #ff6600;
 @default-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
 
 :root {
-    --portal-background-color: #ececec;
     --dev-mode: none;
+}
+[data-theme="light"] {
+    --portal-background-color: #ececec;
     --logs-color: black;
     --primary-color: #fff;
     --default-text-color: #040e2b;
@@ -31,14 +28,12 @@
     --ui-background-gradient: linear-gradient(180deg, @ui-color 0%, @light-ui-color 100%);
     --api-background-gradient: linear-gradient(180deg, @api-color 0%, @light-api-color 100%);
     --pipeline-last-updated-color: #7a7a7a;
+    --navigation-highlight: @light-ui-color;
     --logs-icon: url('icons/file-earmark.svg');
-    --banner-name-height: 200px;
-    --portal-card-max-width: 350px;
     --company-logo: url("logo/logo.svg");
     --settings-icon: url('icons/settings.svg');
     --download-icon: url('icons/download.svg');
     --link-icon: url('icons/link.svg');
-    --navigation-highlight: @light-ui-color;
 }
 
 [data-theme="dark"] {
@@ -53,12 +48,12 @@
     --ui-background-gradient: linear-gradient(180deg, @ui-color 0%, @dark-ui-color 100%);
     --api-background-gradient: linear-gradient(180deg, @api-color 0%, @dark-api-color 100%);
     --pipeline-last-updated-color: #bbbbbb;
+    --navigation-highlight: @dark-ui-color;
     --logs-icon: url('icons/file-earmark-white.svg');
     --company-logo: url("logo/logo-white.svg");
     --settings-icon: url('icons/settings-white.svg');
     --download-icon: url('icons/download-white.svg');
     --link-icon: url('icons/link-white.svg');
-    --navigation-highlight: @dark-ui-color;
 }
 
 * {
@@ -296,14 +291,10 @@ body {
     display: none;
 }
 
-.dev-enabled {
-    display: var(--dev-mode);
-}
-
 .portal-card {
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.56);
     width: 100%;
-    max-width: var(--portal-card-max-width);
+    max-width: 350px;
     margin: 12px;
     z-index: 10;
     flex: auto;
@@ -317,7 +308,7 @@ body {
 
     .image-container {
         position: relative;
-        height: var(--banner-name-height);
+        height: 200px;
 
         .centered {
             position: absolute;
@@ -478,50 +469,6 @@ body {
                 color: var(--pipeline-last-updated-color)
             }
         }
-        .multi-pipeline-container {
-            display: inline-block;
-            .multi-pipeline-content {
-                box-sizing: border-box;
-                opacity: 0;
-                visibility: hidden;
-                position: absolute;
-                transform: translate(0, 20px);
-                background-color: var(--portal-background-color);
-                padding: 20px 4px 10px 4px;
-                box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.4);
-                width: 95%;
-            }
-            .multi-pipeline-content:before {
-                position: absolute;
-                z-index: -1;
-                content: "";
-                top: -28px;
-                border-style: solid;
-                border-color: transparent transparent var(--portal-background-color) transparent;
-                transition-duration: 0.3s;
-                transition-property: transform;
-            }
-            &:hover .multi-pipeline-content {
-                z-index: 101;
-                opacity: 1;
-                visibility: visible;
-                transform: translate(0, 0px);
-                transition: all 0.5s;
-                .multi-pipleine-title {
-                    font-size: 14px;
-                    text-align: center;
-                    color: var(--default-text-color);
-                }
-                hr {
-                    display: block;
-                    height: 1px;
-                    border: 0;
-                    border-top: 1px solid var(--search-border-color);
-                    margin-bottom: 0.5em;
-                    padding: 0;
-                }
-            }
-        }
 
         .footer-links {
             display: flex;
@@ -598,25 +545,6 @@ body {
                         color: white;
                         background-color: @gitlab-color;
                         background-image: url('icons/gitlab-white.svg');
-                    }
-                }
-            }
-            .dashboard-button {
-                display: flex;
-                flex: 1 0 0%;
-
-                .btn {
-                    border: 1px solid @kibana-color;
-                    color: @kibana-color;
-                    background-image: url('icons/kibana.svg');
-                    background-size: 20px;
-                    background-position: right 7px bottom 50%;
-                    background-repeat: no-repeat;
-
-                    &:hover {
-                        color: white;
-                        background-color: @kibana-color;
-                        background-image: url('icons/kibana-white.svg');
                     }
                 }
             }
@@ -703,10 +631,6 @@ body {
 .admin-form {
     width: 80%;
     margin: 0 auto;
-
-    .errors {
-        border: 4px solid @critical-color;
-    }
 
     .admin-card {
         background-color: var(--portal-background-color);
@@ -855,11 +779,6 @@ body {
                 border: 2px solid @ui-color;
             }
         }
-        
-        .validation-error {
-            color: @critical-color;
-            text-align: right;
-        }
 
         .input-row {
             display: flex;
@@ -878,10 +797,6 @@ body {
                 border-radius: 4px;
                 box-sizing: border-box;
                 background-color: var(--admin-input-background-color);
-            }
-
-            .errors {
-                border: 2px solid @critical-color 
             }
 
             .input-checkbox {
@@ -939,94 +854,6 @@ body {
         &:hover {
             background-color: #0069d9;
         }
-    }
-
-    .admin-sync {
-        bottom: 275px;
-        background-color: #ffc400;
-    }
-}
-
-.alert {
-    padding: 20px;
-    margin: auto;
-    margin-top: 15px;
-    background-color: #f44336;
-    color: white;
-    margin-bottom: 15px;
-    max-width: 50%;
-
-    .closebtn {
-        margin-left: 15px;
-        color: white;
-        font-weight: bold;
-        float: right;
-        font-size: 22px;
-        line-height: 20px;
-        cursor: pointer;
-        transition: 0.3s;
-
-        &:hover {
-            color: black;
-        }
-    }
-}
-
-.alert-success {
-    background-color: @ok-color;
-}
-
-.loginContainer {
-    padding: 20px;
-    border: var(--search-border-color) 1px solid;
-    border-radius: 5px;
-    background-color: var(--card-body-background-color);
-    color: var(--default-text-color);
-    max-width: 50%;
-    margin: auto;
-    margin-top: 100px;
-    padding-top: 40px;
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12);
-
-    .loginButton {
-        background: linear-gradient(90deg, @ui-color 0%, @light-ui-color 100%);
-        color: #fff;
-        text-align: center;
-        vertical-align: middle;
-        font-weight: 400;
-        font-size: 1rem;
-        padding: 10px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 15px;
-        width: 100%;
-        cursor: pointer;
-
-        &:hover {
-            background: linear-gradient(90deg, rgba(255, 130, 0, 0.8) 0%, rgba(255, 196, 0, 0.8) 100%);
-        }
-    }
-
-    .loginTitle {
-        margin-bottom: 1rem;
-        font-family: inherit;
-        font-weight: 500;
-        line-height: 1.1;
-        font-size: x-large;
-        font-weight: bold;
-        text-align: center;
-    }
-
-    .login-input {
-        margin-bottom: 20px;
-        margin-top: 5px;
-        font-size: 20px;
-        padding: 5px 10px;
-        background-color: var(--search-background-color);
-        color: var(--default-text-color);
-        border: var(--search-border-color) 1px solid;
-        width: 100%;
-        box-sizing: border-box;
     }
 }
 

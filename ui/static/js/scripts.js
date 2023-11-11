@@ -1,9 +1,9 @@
 function getAllCookies() {
     var allCookies = document.cookie;
     cookieArray = allCookies.split(';');
-    cookies = new Map();
+    var cookies = new Map();
     for(let cookie of cookieArray) {
-        splitCookie = cookie.split("=");
+        var splitCookie = cookie.split("=");
         cookies.set(splitCookie[0].trim(), splitCookie[1]);
     }
     return cookies

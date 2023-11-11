@@ -66,34 +66,40 @@
         search();
         window.scrollTo({ top: 0, behavior: "smooth" })
     }
+
     function toggleDevMode() {
         const devToggle = document.getElementById("dev-mode-toggle");
+        const cards = document.getElementsByClassName("portal-card");
         setCookie("devMode", devToggle.checked, 10);
         setTheme(document.body.getAttribute('data-theme'), devToggle.checked);
-        document.getElementsByClassName("portal-card").forEach((card) => {
-            if (!devToggle.checked && card.getAttribute("dev") == "true") {
-                card.style.display = "none";
+        for (let i = 0; i < cards.length; i++) {
+            const dev_attr = cards[i].getAttribute("dev");
+            if (!devToggle.checked && dev_attr == "true") {
+                cards[i].style.display = "none";
             } else {
-                card.style.display = "";
+                cards[i].style.display = "";
             }
-        });
+        }
         window.dispatchEvent(new Event("resize"));
     }
+
     function clickTab(tab) {
         // tab ids are in the format: {service-name}-tab-{api/ui}
         const command = tab.id.split("-");
         const clickedTab = command[2];
         const card = document.getElementById(command[0]);
-        card.getElementsByClassName("tab-pane").forEach((tabPane) => {
-            if (tabPane.id == clickedTab) {
-                tabPane.style.display = "";
-                tabPane.classList.add("active");
+        const tabPanes = card.getElementsByClassName("tab-pane");
+        for (let i = 0; i < tabPanes.length; i++) {
+            if (tabPanes[i].id == clickedTab) {
+                tabPanes[i].style.display = "";
+                tabPanes[i].classList.add("active");
             } else {
-                tabPane.style.display = "none";
-                tabPane.classList.remove("active");
+                tabPanes[i].style.display = "none";
+                tabPanes[i].classList.remove("active");
             }
-        });
+        }
     }
+
     function toggleFavourites(service) {
         const id = service.id
         var favourites = getCookie("favourites") || "";
