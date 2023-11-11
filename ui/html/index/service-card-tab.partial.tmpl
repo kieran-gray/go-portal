@@ -1,0 +1,48 @@
+{{ define "service-card-tab" }}
+
+{{ $hasLogs := .HasLogs }}
+<div class="tab-pane" id="{{ .ServiceType }}" >
+    <a class="service-link"
+        target="_blank"
+        href={{ getHighestPriorityUrl .ServiceDetails }}>
+        <div class="image-container">
+            <div class="card-image {{ .ServiceType }}" alt=""></div>
+            <h5 class="card-title centered" id="service-name">{{ .Name }}</h5>
+            <div class="overlay"></div>
+        </div>
+    </a>
+    <div class="card-body-row">
+        <div class="card-body">
+            <p class="card-text">{{ .ServiceDetails.Description }}</p>
+        </div>
+        <div class="favourite-button {{ if .Favourite }} active {{ end }}" id="{{ .Id }}" onclick="toggleFavourites(this)"></div>
+    </div>
+    <div class="card-footer">
+        {{ if .Pipeline.HasPipeline }}
+            {{ template "pipeline" .Pipeline.Pipeline }}        
+        {{ end }}
+        <div class="footer-links">
+            <div class="footer-buttons">
+                {{ range sortedByPriority .ServiceDetails.Environments }}
+                    {{ template "service-card-footer-button" generateServiceCardFooterButtonData . $hasLogs}}
+                {{ end }}
+            </div>
+        </div>
+        {{ if .ServiceDetails.RepositoryUrl}}
+            <div class="footer-links">
+                <div class="footer-buttons repo-button">
+                    <a type="button"
+                        target="_blank"
+                        class="btn btn-outline-success btn-sm"
+                        style="{{ if $hasLogs}} padding-right: 46px; {{ end }}"
+                        href={{ .ServiceDetails.RepositoryUrl }}
+                    >
+                        Repository
+                    </a>
+                </div>
+            </div>
+        {{ end }}
+    </div>
+</div>
+
+{{ end }}

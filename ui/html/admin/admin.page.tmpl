@@ -1,0 +1,245 @@
+{{define "admin"}}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet/less" type="text/css" href="static/stylesheet.less" />
+    <link rel="icon" href="static/logo/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/less" ></script>
+    <script src="static/js/scripts.js"></script>
+    <title>Portal</title>
+</head>
+<body id="body">
+    <header class="toolbar_content primary" id="header">
+        <img id="company-logo">
+        <div class="toolbar_title">Portal</div>
+        <div class="spacer"></div>
+        <div class="controls-container">
+            <input class="form-control rounded" type="search" id="searchBar" oninput="search()" placeholder="Search"
+                autofocus="autofocus">
+            <div class="dropdown-menu">
+                <button class="dropdown-btn"></button>
+                <div class="dropdown-content">
+                    <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
+                        <p class="text" id="toggle-label">Dark Mode</p>
+                        <label class="switch" id="switch" onchange="toggleDarkMode()">
+                            <input type="checkbox" id="dark-mode-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="row" id="toggle-row">
+                        <a class="text" id="download-label" href="/services.json" download>Download JSON</a>
+                    </div>
+                    <div class="row" id="toggle-row">
+                        <a class="navigation-button" href="/">Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="application-container">
+        <form action="" class="admin-form" id="admin-form">
+            {{range .Services}}
+                {{ template "admin-card" generateAdminCardData .}}
+            {{end}}
+            <div class="admin-button-row">
+                <input class="floating-button admin-button admin-submit"
+                    value="submit"
+                    method="post"
+                    id="admin-form-btn-submit"
+                    type="submit"
+                    title="Submit changes to S3">
+                <input class="floating-button admin-button admin-add" 
+                    name="addService"
+                    id="admin-form-btn-add-service" 
+                    type="submit"
+                    method="post"
+                    value="+"
+                    title="Add a new service">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    onload = newPageLoad();
+    function newPageLoad(tabPane = undefined) {
+        setDarkModeToggle();
+        toggleDarkMode();
+        setCurrentActiveTabs();
+        const form = document.querySelector("#admin-form")
+        if (form) {
+            form.addEventListener("submit", function(e) {
+                e.preventDefault();
+                submitForm(e.submitter)
+            });
+        }
+        if (tabPane) {
+            showElement(tabPane)
+        }
+    }
+    
+    function setCurrentActiveTabs() {
+        // Set all the first elements to be active
+        const allTabs = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < allTabs.length; i++) {
+            const panes = allTabs[i].getElementsByClassName("admin-tab-pane");
+            for (let j = 0; j < panes.length; j++) {
+                hideElement(panes[j]);   
+            }
+        }
+    }
+
+    function hideElement(element) {
+        element.style.display = "none";
+        element.classList.remove("active");
+    }
+
+    function showElement(element, display = "") {
+        element.style.display = display;
+        element.classList.add("active");
+    }
+
+    function clickTab(tab) {
+        // tab ids are in the format: {service-name}-tab-{api/ui}
+        const command = tab.id.split("-");
+        const clickedTab = command[2];
+        const card = document.getElementById(command[0]);
+        const tabPanes = card.getElementsByClassName("admin-tab-pane");
+        for (let j = 0; j < tabPanes.length; j++) {
+            if (tabPanes[j].classList.contains(clickedTab+"-pane") && !tabPanes[j].classList.contains("active")) {
+                showElement(tabPanes[j])
+            } else {
+                hideElement(tabPanes[j])
+            }
+        }
+    }
+
+    function deleteService(id, name) {
+        const menu = document.getElementById(id+"-menu");
+        const card = document.getElementById(id);
+        const content = menu.getElementsByClassName("more-content");
+        if (confirm("Are you sure you want to delete service: "+name)) {
+            card.remove();
+        }
+        hideElement(content[0]);
+    }
+    
+    function deleteEnvironment(id) {
+        const environment = document.getElementById(id);
+        if (confirm("Are you sure you want to delete environment")) {
+            environment.remove();
+        }
+    }
+
+    function toggleMenu(id) {
+        const menu = document.getElementById(id);
+        const content = menu.getElementsByClassName("more-content");
+        for (let i = 0; i < content.length; i++) {
+            if (!content[i].classList.contains("active")) {
+                showElement(content[i], "block");
+            } else {
+                hideElement(content[i]);
+            }
+        }
+    }
+
+    async function submitForm(button) {
+        const form = document.getElementById("admin-form")
+        const formData = new FormData(form)
+
+        var paneId = undefined
+        const submitter = button.name || "submit";
+        var url = "/admin"
+        if (submitter === "addService") {
+            url += "/addService";
+        } else if (submitter.startsWith("addEnvironment")) {
+            var values = submitter.split("-").pop().split("&");
+            url += "/addEnv/"+values[0]+"&"+values[1];
+            paneId = values[0]+"-"+values[1]+"-pane"
+        }
+        const response = await fetch(url, {
+            method: "POST",
+            headers: buildHeaders(),
+            body: JSON.stringify(buildJsonFormData(formData)),
+        });
+        if (response.status == 200) {
+            var newBody = document.createElement("body")
+            newBody.innerHTML = await response.text()
+            document.getElementsByTagName("body")[0].replaceWith(newBody)
+            
+            var scrollElement = window;
+            console.log(paneId)
+            if (paneId) {
+                scrollElement = document.getElementById(values[0]+"-"+values[1]+"-pane")
+                newPageLoad(scrollElement);
+            } else {
+                newPageLoad();
+            }
+            scrollElement.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            console.log(response.status)
+        }
+    }
+
+    function cleanEnvironmentData(data) {
+        environmentList = []
+        if ("environments" in data) {
+            environmentList = Object.values(data["environments"])
+            environmentList.forEach((environment) => {
+                environment["priority"] = parseInt(environment["priority"])
+            })
+        }
+        return environmentList
+    }
+
+    function cleanServices(services) {
+        services.forEach((service) => {
+            service["metadata"]["dev_only"] = service["metadata"]["dev_only"] === "true"
+            service["api"]["environments"] = cleanEnvironmentData(service["api"])
+            service["ui"]["environments"] = cleanEnvironmentData(service["ui"])
+        });
+        return services
+    }
+
+    function buildJsonFormData(formData) {
+        regex = /(?<=\[)[^\]]+(?=\])/g;
+        const jsonFormData = {}
+        for(const pair of formData) {
+            let currentLevel = jsonFormData
+            keys = pair[0].match(regex);
+            keys.forEach((key, index) => {
+                const formattedKey = key.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase()
+                if (index === keys.length - 1) {
+                    currentLevel[formattedKey] = pair[1]
+                } else {
+                    currentLevel[formattedKey] = currentLevel[formattedKey] || {};
+                    currentLevel = currentLevel[formattedKey];
+                }
+            });
+        }
+        const date = new Date();
+        const body = {
+            "metadata": {
+                "last_updated_on": date.toISOString(),
+                "last_updated_by": "Unknown",
+                "version": "Unknown"
+            }, 
+            "services": cleanServices(Object.values(jsonFormData))
+        }
+        return body;
+    }
+
+    function buildHeaders(authorization = null) {
+        const headers = {
+            "Content-Type": "application/json",
+            "Authorization": (authorization) ? authorization : "Bearer TOKEN_MISSING"
+        };
+        return headers;
+    }
+</script>
+
+{{end}}

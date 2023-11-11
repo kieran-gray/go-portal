@@ -1,0 +1,59 @@
+{{ define "admin-card" }}
+
+{{ $serviceName := .Service.Metadata.Name}}
+<div class="admin-card" id="{{ .Id }}" data-search="{{ .SearchAliases }}">
+  <div class="admin-title-row">
+    <p class="admin-title">{{ $serviceName }}</p><br>
+    <div class="more-menu" id="{{ .Id }}-menu">
+      <img title="Menu" class="more-button" id="more-button" src="static/icons/more.svg" onclick='toggleMenu("{{ .Id }}-menu")'></img>
+      <div class="more-content">
+        <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
+          <button class="delete-button" type="button" onclick='deleteService("{{ .Id }}", "{{ $serviceName }}")'>
+            Delete Service
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="admin-metadata">
+    {{ $metadataMap := toMap .Service.Metadata }}
+    <div class="input-row">
+      <p class="input-label">Dev Only: </p>
+      <div class="admin-spacer"></div>
+      <input
+        class="input-checkbox"
+        type="checkbox"
+        name='[{{ $serviceName }}][Metadata][DevOnly]'
+        value=true
+        {{ if eq $metadataMap.DevOnly true }} checked {{ end }} />
+      <div style="flex-grow: 2;"></div>
+    </div>
+    {{ range $key, $value := $metadataMap}}
+      {{ if not (eq $key "DevOnly") }}
+        <div class="input-row">
+          <p class="input-label">{{ $key }}: </p>
+          <div class="admin-spacer"></div>
+          <input 
+            class="input-text"
+            type="text"
+            name='[{{ $serviceName }}][Metadata][{{ $key }}]'
+            value="{{ $value }}"/>
+          </div>
+        {{ end }}
+    {{ end }}
+  </div>
+  <div class="admin-card-tabs">
+    <a class="ui" id="{{ .Id }}-tab-ui" onClick="clickTab(this)" class="nav-link" role="tab">
+      UI
+    </a>
+    <a class="api" id="{{ .Id }}-tab-api" onClick="clickTab(this)" class="nav-link" role="tab">
+      API
+    </a>
+  </div>
+  <div class="tab-content text-center">
+    {{ template "admin-card-tab" generateAdminCardTabData .Service "ui"}}
+    {{ template "admin-card-tab" generateAdminCardTabData .Service "api"}}
+  </div>
+</div>
+
+{{ end }}

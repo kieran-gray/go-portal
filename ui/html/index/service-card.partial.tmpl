@@ -1,0 +1,26 @@
+{{define "service-card"}}
+
+<div class="portal-card"
+    id="{{ .Id }}"
+    dev="{{ .Service.Metadata.DevOnly }}"
+    data-search="{{ .SearchAliases }}"
+>
+    <div id="portal-card-tabs">
+    {{ if .HasUi }}
+        <a id="{{ .Id }}-tab-ui" class="ui" onClick="clickTab(this)" class="nav-link" role="tab">UI</a>
+    {{ end }}
+    {{ if .HasApi }}
+        <a id="{{ .Id }}-tab-api" class="api" onClick="clickTab(this)" class="nav-link" role="tab">API</a>
+    {{ end }}
+    </div>
+    <div class="tab-content text-center">
+        {{ if .HasUi }}
+            {{ template "service-card-tab" generateServiceCardTabData .Service "ui" .Favourite .Pipelines}}
+        {{ end }}
+        {{ if .HasApi }}
+            {{ template "service-card-tab" generateServiceCardTabData .Service "api" .Favourite .Pipelines}}
+        {{ end }}
+    </div>
+</div>
+
+{{end}}

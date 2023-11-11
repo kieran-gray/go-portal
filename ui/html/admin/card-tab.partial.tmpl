@@ -1,0 +1,56 @@
+{{ define "admin-card-tab" }}
+{{ $name := .Name }}
+{{ $serviceType := .ServiceType }}
+{{ $id := .Id }}
+<div class="admin-tab-pane {{ $serviceType }}-pane" id='{{ $id }}-{{ $serviceType }}-pane'>
+    {{ $map := toMap .ServiceDetails}}
+    {{ range $key, $value := $map}}
+        {{ if not (eq $key "Environments") }}
+            <div class="input-row">
+                <p class="input-label">{{ $key }}: </p>
+                <div class="admin-spacer"></div>
+                <input 
+                    class="input-text"
+                    type="text"
+                    name='[{{ $name }}][{{ $serviceType }}][{{ $key }}]'
+                    value='{{ $value }}'/>
+            </div>
+        {{ end }}
+    {{ end }}
+    <div class="environment-container">
+        {{ range $i, $env := .ServiceDetails.Environments }}
+            <div class="environment-input-container" id="{{ $id }}-{{ $serviceType }}-{{ .Name }}-{{ $i }}">
+                <div class="environment-title-row">
+                    <p class="environment-title">Environment - {{ .Name }}</p>
+                    <button class="delete-button" type="button" onclick='deleteEnvironment("{{ $id }}-{{ $serviceType }}-{{ .Name }}-{{ $i }}")'>
+                        Delete
+                    </button>
+                  </div>
+                {{ $environmentMap := toMap .}}
+                {{ range $key, $value := $environmentMap}}
+                    <div class="input-row">
+                        <p class="input-label">{{ $key }}: </p>
+                        <div class="admin-spacer"></div>
+                        <input 
+                            class="input-text"
+                            type="text"
+                            name='[{{ $name }}][{{ $serviceType }}][Environments][{{ $i }}][{{ $key }}]'
+                            value='{{ $value }}'/>
+                    </div>
+                {{ end }}
+            </div>
+        {{ end }}
+        <div class="add-environment-row">
+            <button 
+                class="add-environment-button"
+                method="post"
+                type="submit"
+                name="addEnvironment-{{ $id }}&{{ $serviceType }}"
+                title="Add a new environment">
+                Add Environment
+            </button>
+        </div>
+    </div>
+</div>
+
+{{ end }}

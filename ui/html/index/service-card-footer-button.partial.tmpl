@@ -1,0 +1,23 @@
+{{ define "service-card-footer-button" }}
+
+{{ if .Url }}
+    <div class="service-button-row">
+        <a type="button"
+        class="btn btn-outline-primary btn-sm service-button {{ if and (.HasLogs) (eq .LogsUrl "")}} offset {{end}}"
+        target="_blank"
+        href={{ .Url }}>
+            {{ .EnvironmentName }}
+        </a>
+    {{ if .LogsUrl }}
+        <a type="button"
+            target="_blank"
+            class="btn btn-outline-secondary btn-sm logs-button"
+            title="{{ .EnvironmentName }} Logs"
+            href={{ .LogsUrl }}
+        >
+        </a>
+    {{ end }}
+    </div>
+{{ end }}
+
+{{ end }}

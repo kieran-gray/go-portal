@@ -1,0 +1,132 @@
+{{define "index"}}
+
+{{ $pipelines := .Pipelines }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet/less" type="text/css" href="../static/stylesheet.less" />
+    <link rel="icon" href="../static/logo/favicon.ico">
+    <script src="https://cdn.jsdelivr.net/npm/less" ></script>
+    <script src="static/js/scripts.js"></script>
+    <title>Portal</title>
+</head>
+
+<body id="body" data-theme="light">
+    <header class="toolbar_content primary" id="header">
+        <img id="company-logo">
+        <div class="toolbar_title">Portal</div>
+        <div class="spacer"></div>
+        <div class="controls-container">
+            <input class="form-control rounded" type="search" id="searchBar" oninput="search()" placeholder="Search"
+                autofocus="autofocus">
+            <div class="dropdown-menu">
+                <button class="dropdown-btn"></button>
+                <div class="dropdown-content">
+                    <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
+                        <p class="text" id="toggle-label">Dark Mode</p>
+                        <label class="switch" id="switch" onchange="toggleDarkMode()">
+                            <input type="checkbox" id="dark-mode-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
+                        <p class="text" id="toggle-label">Dev Mode</p>
+                        <label class="switch" id="switch" onchange="toggleDevMode()">
+                            <input type="checkbox" id="dev-mode-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                    <div class="row" id="toggle-row">
+                        <a class="navigation-button" href="/admin">Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="application-container">
+        {{range .Favourites}}
+            {{ template "service-card" generateServiceCardData . true $pipelines}}
+        {{end}}
+        {{range .Services}}
+            {{ template "service-card" generateServiceCardData . false $pipelines}}
+        {{end}}
+    </div>
+</body>
+
+</html>
+<script>
+    onload = newPageLoad();
+    function setCurrentActiveTabs() {
+        // Set all the first elements to be active
+        const allTabs = document.getElementsByClassName("tab-content");
+        for (let i = 0; i < allTabs.length; i++) {
+            const panes = allTabs[i].getElementsByClassName("tab-pane");
+            for (let j = 0; j < panes.length; j++) {
+                if (j == 0) {
+                    panes[j].classList.add("active");
+                } else {
+                    panes[j].style.display = "none";
+                }
+            }
+        }
+    }
+    function newPageLoad() {
+        setDevModeToggle();
+        setDarkModeToggle();
+        setCurrentActiveTabs();
+        toggleDevMode();
+        toggleDarkMode();
+        search();
+        window.scrollTo({ top: 0, behavior: "smooth" })
+    }
+    function toggleDevMode() {
+        const devToggle = document.getElementById("dev-mode-toggle");
+        const cards = document.getElementsByClassName("portal-card");
+        setCookie("devMode", devToggle.checked, 10);
+        setTheme(document.body.getAttribute('data-theme'), devToggle.checked);
+        for (let i = 0; i < cards.length; i++) {
+            const dev_attr = cards[i].getAttribute("dev");
+            if (!devToggle.checked && dev_attr == "true") {
+                cards[i].style.display = "none";
+            } else {
+                cards[i].style.display = "";
+            }
+        }
+        window.dispatchEvent(new Event("resize"));
+    }
+    function clickTab(tab) {
+        // tab ids are in the format: {service-name}-tab-{api/ui}
+        const command = tab.id.split("-");
+        const clickedTab = command[2];
+        const card = document.getElementById(command[0]);
+        const tabPanes = card.getElementsByClassName("tab-pane");
+        for (let j = 0; j < tabPanes.length; j++) {
+            if (tabPanes[j].id == clickedTab) {
+                tabPanes[j].style.display = "";
+                tabPanes[j].classList.add("active");
+            } else {
+                tabPanes[j].style.display = "none";
+                tabPanes[j].classList.remove("active");
+            }
+        }
+    }
+    function toggleFavourites(service) {
+        const id = service.id
+        var favourites = getCookie("favourites") || "";
+        if (!favourites.includes(id)) {
+            if (favourites) {
+                favourites = favourites + " " + id
+            } else {
+                favourites = id
+            }
+        } else {
+            favourites = favourites.replace(id, "")
+        }
+        setCookie("favourites", favourites, 365)
+        location.reload()
+    }
+</script>
+
+{{end}}
