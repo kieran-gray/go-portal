@@ -1,7 +1,10 @@
 {{ define "service-card-tab" }}
 
 {{ $hasLogs := .HasLogs }}
-<div class="tab-pane" id="{{ .ServiceType }}" >
+<div 
+    class="tab-pane {{ if .ShowTab }} active {{ end }}"
+    id="{{ .ServiceType }}"
+    {{ if not .ShowTab }} style="display: none;" {{ end }} >
     <a class="service-link"
         target="_blank"
         href={{ getHighestPriorityUrl .ServiceDetails }}>

@@ -20,7 +20,10 @@ func ReadServices() (dt.ServicesFile, error) {
 
 	servicesBytes, _ := io.ReadAll(file)
 
-	json.Unmarshal(servicesBytes, &servicesFile)
+	err = json.Unmarshal(servicesBytes, &servicesFile)
+	if err != nil {
+		return servicesFile, err
+	}
 
 	return servicesFile, nil
 }
@@ -36,7 +39,10 @@ func ReadPipelineData() (dt.PipelineFile, error) {
 
 	pipelinesBytes, _ := io.ReadAll(file)
 
-	json.Unmarshal(pipelinesBytes, &pipelineFile)
+	err = json.Unmarshal(pipelinesBytes, &pipelineFile)
+	if err != nil {
+		return pipelineFile, err
+	}
 
 	return pipelineFile, nil
 }

@@ -85,7 +85,8 @@ header {
     height: 62px;
 
     #company-logo {
-        width: 75px;
+        max-width: 200px;
+        max-height: 62px;
         padding-left: 20px;
         content: var(--company-logo);
     }
@@ -382,7 +383,7 @@ body {
 
 
     .card-body-row {
-        display: var(--card-body-minified);
+        display: flex;
         min-height: 33px;
         position: relative;
         z-index: 2;

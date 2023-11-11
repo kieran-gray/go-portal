@@ -2,8 +2,23 @@ package main
 
 import (
 	"html/template"
+	"os"
 	"path/filepath"
 )
+
+func getTemplateNames(dir string) []string {
+	templateNames := []string{}
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return []string{}
+	}
+	for _, entry := range entries {
+		if entry.IsDir() {
+			templateNames = append(templateNames, entry.Name())
+		}
+	}
+	return templateNames
+}
 
 func buildTemplate(path string, name string) (*template.Template, error) {
 	template := template.New(name)
@@ -12,7 +27,7 @@ func buildTemplate(path string, name string) (*template.Template, error) {
 		template = template.Funcs(functions)
 	}
 
-	dir := path+name+"/"
+	dir := path + name + "/"
 	pages, err := filepath.Glob(filepath.Join(dir, "*.page.tmpl"))
 	if err != nil {
 		return nil, err
@@ -22,7 +37,7 @@ func buildTemplate(path string, name string) (*template.Template, error) {
 		if err != nil {
 			return nil, err
 		}
-		template, err = template.ParseGlob(filepath.Join(dir, "*.partial.tmpl"))
+		template, err = template.ParseGlob(filepath.Join(dir, "*.partial.tmpl")) //nolint:all
 		if err != nil {
 			return nil, err
 		}
@@ -30,10 +45,9 @@ func buildTemplate(path string, name string) (*template.Template, error) {
 	return template, nil
 }
 
-func templateCache(dir string, templates []string) (map[string]*template.Template, error) {
+func templateCache(dir string) (map[string]*template.Template, error) {
 	cache := map[string]*template.Template{}
-	
-	for _, templateName := range templates {
+	for _, templateName := range getTemplateNames(dir) {
 		template, err := buildTemplate(dir, templateName)
 		if err != nil {
 			return nil, err

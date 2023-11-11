@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math"
 	"net/http"
 	"reflect"
 	"slices"
@@ -52,46 +51,46 @@ func GenerateServiceId(service dt.Service) string {
 }
 
 func GetFormattedTimeSince(dateString string) string {
-    plural := func(diff float64, str string) string {
-        if (diff > 1) {
-            return fmt.Sprintf("%d %ss Ago", int(diff), str)
+	plural := func(diff int64, str string) string {
+		if diff > 1 {
+			return fmt.Sprintf("%d %ss Ago", int(diff), str)
 		}
-     	return fmt.Sprintf("%d %s Ago", int(diff), str)
-    }
-    formatTime := func(timeCreated time.Time) string {
+		return fmt.Sprintf("%d %s Ago", int(diff), str)
+	}
+	formatTime := func(timeCreated time.Time) string {
 		periods := map[string]int64{
-			"year": 365 * 24 * 60 * 60,
-            "month": 30 * 24 * 60 * 60,
-            "week": 7 * 24 * 60 * 60,
-            "day": 24 * 60 * 60,
-            "hour": 60 * 60,
-            "minute": 60,
+			"year":   365 * 24 * 60 * 60,
+			"month":  30 * 24 * 60 * 60,
+			"week":   7 * 24 * 60 * 60,
+			"day":    24 * 60 * 60,
+			"hour":   60 * 60,
+			"minute": 60,
 		}
-        var diff = time.Now().Unix() - timeCreated.Unix();
+		var diff = time.Now().Unix() - timeCreated.Unix()
 		switch {
 		case diff > periods["year"]:
-			return "Over a Year Ago";
+			return "Over a Year Ago"
 		case diff > periods["month"]:
-			return plural(math.Floor(float64(diff / periods["month"])), " Month")
+			return plural(diff/periods["month"], " Month")
 		case diff > periods["week"]:
-			return plural(math.Floor(float64(diff / periods["week"])), " Week")
+			return plural(diff/periods["week"], " Week")
 		case diff > periods["day"]:
-			return plural(math.Floor(float64(diff / periods["day"])), " Day")
+			return plural(diff/periods["day"], " Day")
 		case diff > periods["hour"]:
-			return plural(math.Floor(float64(diff / periods["hour"])), " Hour")
+			return plural(diff/periods["hour"], " Hour")
 		case diff > periods["minute"]:
-			return plural(math.Floor(float64(diff / periods["minute"])), " Minute")
+			return plural(diff/periods["minute"], " Minute")
 		default:
-        	return "Just now";
-    	}
+			return "Just now"
+		}
 	}
 	timestamp, err := time.Parse(time.RFC3339, dateString)
 	if err != nil {
 		log.Print(err.Error())
 		return ""
 	}
-    return formatTime(timestamp);
-	}
+	return formatTime(timestamp)
+}
 
 func GetFavourites(r *http.Request) []string {
 	cookie, err := r.Cookie("favourites")
@@ -102,9 +101,9 @@ func GetFavourites(r *http.Request) []string {
 }
 
 func GetDisplayServices(services []dt.Service, favourites []string) dt.DisplayServices {
-	displayServices := dt.DisplayServices{Favourites:[]dt.Service{}, Services:[]dt.Service{}}
+	displayServices := dt.DisplayServices{Favourites: []dt.Service{}, Services: []dt.Service{}}
 	for _, service := range services {
-		if (slices.Contains(favourites, GenerateServiceId(service))) {
+		if slices.Contains(favourites, GenerateServiceId(service)) {
 			displayServices.Favourites = append(displayServices.Favourites, service)
 		} else {
 			displayServices.Services = append(displayServices.Services, service)
@@ -125,30 +124,29 @@ func ParseServicesFromRequest(r *http.Request) (dt.ServicesFile, error) {
 func AddService(services []dt.Service) []dt.Service {
 	service := dt.Service{
 		Metadata: dt.ServiceMetadata{
-			Name: fmt.Sprintf("New Service %d", len(services)),
+			Name:    fmt.Sprintf("New Service %d", len(services)),
 			Aliases: "",
 			DevOnly: false,
 		},
 		Ui: dt.ServiceDetails{
-			Description: "",
+			Description:   "",
 			RepositoryUrl: "",
 		},
 		Api: dt.ServiceDetails{
-			Description: "",
+			Description:   "",
 			RepositoryUrl: "",
 		},
-
 	}
 	newServices := []dt.Service{service}
 	return append(newServices, services...)
 }
 
-func AddEnvironment(services []dt.Service, serviceId string, serviceType string) []dt.Service{
+func AddEnvironment(services []dt.Service, serviceId string, serviceType string) []dt.Service {
 	newEnvironment := dt.Environment{
-		Name: "New Environment",
+		Name:     "New Environment",
 		Priority: 0,
-		Url: "",
-		LogsUrl: "",
+		Url:      "",
+		LogsUrl:  "",
 	}
 	for i := 0; i < len(services); i++ {
 		if GenerateServiceId(services[i]) == serviceId {

@@ -69,28 +69,18 @@
     function newPageLoad(tabPane = undefined) {
         setDarkModeToggle();
         toggleDarkMode();
-        setCurrentActiveTabs();
-        const form = document.querySelector("#admin-form")
-        if (form) {
-            form.addEventListener("submit", function(e) {
-                e.preventDefault();
-                submitForm(e.submitter)
-            });
-        }
-        if (tabPane) {
-            showElement(tabPane)
+        setFormEventListener();
+        if (tabPane && tabPane.style) {
+            showElement(tabPane);
         }
     }
     
-    function setCurrentActiveTabs() {
-        // Set all the first elements to be active
-        const allTabs = document.getElementsByClassName("tab-content");
-        for (let i = 0; i < allTabs.length; i++) {
-            const panes = allTabs[i].getElementsByClassName("admin-tab-pane");
-            for (let j = 0; j < panes.length; j++) {
-                hideElement(panes[j]);   
-            }
-        }
+    function setFormEventListener() {
+        const form = document.getElementById("admin-form")
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            submitForm(e.submitter);
+        });
     }
 
     function hideElement(element) {
@@ -103,19 +93,23 @@
         element.classList.add("active");
     }
 
+    function isActive(element) {
+        return element.classList.contains("active");
+    }
+
     function clickTab(tab) {
         // tab ids are in the format: {service-name}-tab-{api/ui}
-        const command = tab.id.split("-");
-        const clickedTab = command[2];
-        const card = document.getElementById(command[0]);
+        const values = tab.id.split("-");
+        const serviceType = values[2];
+        const card = document.getElementById(values[0]);
         const tabPanes = card.getElementsByClassName("admin-tab-pane");
-        for (let j = 0; j < tabPanes.length; j++) {
-            if (tabPanes[j].classList.contains(clickedTab+"-pane") && !tabPanes[j].classList.contains("active")) {
-                showElement(tabPanes[j])
+        card.getElementsByClassName("admin-tab-pane").forEach((tabPane) => {
+            if (tabPane.classList.contains(serviceType+"-pane") && isActive(tabPane)) {
+                hideElement(tabPanes[j]);
             } else {
-                hideElement(tabPanes[j])
+                showElement(tabPanes[j]);
             }
-        }
+        });
     }
 
     function deleteService(id, name) {
@@ -127,7 +121,7 @@
         }
         hideElement(content[0]);
     }
-    
+
     function deleteEnvironment(id) {
         const environment = document.getElementById(id);
         if (confirm("Are you sure you want to delete environment")) {
@@ -137,19 +131,18 @@
 
     function toggleMenu(id) {
         const menu = document.getElementById(id);
-        const content = menu.getElementsByClassName("more-content");
-        for (let i = 0; i < content.length; i++) {
-            if (!content[i].classList.contains("active")) {
-                showElement(content[i], "block");
+        menu.getElementsByClassName("more-content").forEach((c) => {
+            if (c.classList.contains("active")) {
+                hideElement(c);
             } else {
-                hideElement(content[i]);
+                showElement(c, "block");
             }
-        }
+        });
     }
 
     async function submitForm(button) {
-        const form = document.getElementById("admin-form")
-        const formData = new FormData(form)
+        const form = document.getElementById("admin-form");
+        const formData = new FormData(form);
 
         var paneId = undefined
         const submitter = button.name || "submit";
@@ -171,14 +164,8 @@
             newBody.innerHTML = await response.text()
             document.getElementsByTagName("body")[0].replaceWith(newBody)
             
-            var scrollElement = window;
-            console.log(paneId)
-            if (paneId) {
-                scrollElement = document.getElementById(values[0]+"-"+values[1]+"-pane")
-                newPageLoad(scrollElement);
-            } else {
-                newPageLoad();
-            }
+            var scrollElement = paneId ? document.getElementById(values[0]+"-"+values[1]+"-pane") : window;
+            newPageLoad(scrollElement);
             scrollElement.scrollTo({ top: 0, behavior: "smooth" });
         } else {
             console.log(response.status)
@@ -193,7 +180,7 @@
                 environment["priority"] = parseInt(environment["priority"])
             })
         }
-        return environmentList
+        return environmentList;
     }
 
     function cleanServices(services) {
@@ -202,7 +189,7 @@
             service["api"]["environments"] = cleanEnvironmentData(service["api"])
             service["ui"]["environments"] = cleanEnvironmentData(service["ui"])
         });
-        return services
+        return services;
     }
 
     function buildJsonFormData(formData) {

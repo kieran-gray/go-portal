@@ -2,7 +2,7 @@
 {{ $name := .Name }}
 {{ $serviceType := .ServiceType }}
 {{ $id := .Id }}
-<div class="admin-tab-pane {{ $serviceType }}-pane" id='{{ $id }}-{{ $serviceType }}-pane'>
+<div class="admin-tab-pane {{ $serviceType }}-pane" id='{{ $id }}-{{ $serviceType }}-pane' style="display: none;">
     {{ $map := toMap .ServiceDetails}}
     {{ range $key, $value := $map}}
         {{ if not (eq $key "Environments") }}

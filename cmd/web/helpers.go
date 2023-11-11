@@ -12,7 +12,7 @@ import (
 
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
-	app.errorLog.Output(2, trace)
+	_ = app.errorLog.Output(2, trace)
 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 }
 
@@ -31,7 +31,11 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 		return
 	}
 
-	buffer.WriteTo(w)
+	_, err = buffer.WriteTo(w)
+	if err != nil {
+		app.serverError(w, err)
+		return
+	}
 }
 
 func (app *application) getServicesFile(filename string) dt.ServicesFile {
@@ -50,7 +54,11 @@ func (app *application) getServicesFile(filename string) dt.ServicesFile {
 		app.errorLog.Print((err.Error()))
 		return servicesFile
 	}
-	json.Unmarshal(bytes, &servicesFile)
+	err = json.Unmarshal(bytes, &servicesFile)
+	if err != nil {
+		app.errorLog.Print(err.Error())
+		return servicesFile
+	}
 	app.fileCache[filename] = servicesFile
 	return servicesFile
 }
@@ -71,8 +79,12 @@ func (app *application) getPipelineFile(filename string) dt.PipelineFile {
 		app.errorLog.Print((err.Error()))
 		return pipelineFile
 	}
-	
-	json.Unmarshal(bytes, &pipelineFile)
+
+	err = json.Unmarshal(bytes, &pipelineFile)
+	if err != nil {
+		app.errorLog.Print(err.Error())
+		return pipelineFile
+	}
 	app.fileCache[filename] = pipelineFile
 	return pipelineFile
 }

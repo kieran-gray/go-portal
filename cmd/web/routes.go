@@ -2,24 +2,24 @@ package main
 
 import (
 	"encoding/json"
-	"html/template"
-	"net/http"
 	"github.com/go-chi/chi/v5"
 	utils "github.com/kieran-gray/go-portal/pkg/utils"
+	"html/template"
+	"net/http"
 )
 
 var indexTemplateFunctions = template.FuncMap{
-	"getHighestPriorityUrl": utils.GetHighestPriorityUrl,
-	"generateServiceCardData": utils.GenerateServiceCardData,
-	"generateServiceCardTabData": utils.GenerateServiceCardTabData,
+	"getHighestPriorityUrl":               utils.GetHighestPriorityUrl,
+	"generateServiceCardData":             utils.GenerateServiceCardData,
+	"generateServiceCardTabData":          utils.GenerateServiceCardTabData,
 	"generateServiceCardFooterButtonData": utils.GenerateServiceCardFooterButtonData,
-	"getFormattedTimeSince": utils.GetFormattedTimeSince,
-	"sortedByPriority": utils.SortedByPriority,
+	"getFormattedTimeSince":               utils.GetFormattedTimeSince,
+	"sortedByPriority":                    utils.SortedByPriority,
 }
 
 var adminTemplateFunctions = template.FuncMap{
-	"generateAdminCardData": utils.GenerateAdminCardData,
-	"toMap": utils.ToMap,
+	"generateAdminCardData":    utils.GenerateAdminCardData,
+	"toMap":                    utils.ToMap,
 	"generateAdminCardTabData": utils.GenerateAdminCardTabData,
 }
 
@@ -77,7 +77,7 @@ func (app *application) adminAddService(w http.ResponseWriter, r *http.Request) 
 	if err != nil {
 		app.serverError(w, err)
 	}
-	app.infoLog.Print("POST /admin/addService: parsed request body")	
+	app.infoLog.Print("POST /admin/addService: parsed request body")
 	servicesFile.Services = utils.AddService(servicesFile.Services)
 	app.render(w, r, "admin", servicesFile)
 }
@@ -85,13 +85,19 @@ func (app *application) adminAddService(w http.ResponseWriter, r *http.Request) 
 func (app *application) services(w http.ResponseWriter, r *http.Request) {
 	servicesFile := app.getServicesFile("services.json")
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(servicesFile)
+	err := json.NewEncoder(w).Encode(servicesFile)
+	if err != nil {
+		app.errorLog.Print(err.Error())
+	}
 }
 
 func (app *application) pipelines(w http.ResponseWriter, r *http.Request) {
 	PipelineFile := app.getPipelineFile("gitlabPipelineData.json")
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(PipelineFile)
+	err := json.NewEncoder(w).Encode(PipelineFile)
+	if err != nil {
+		app.errorLog.Print(err.Error())
+	}
 }
 
 func (app *application) routes() *chi.Mux {

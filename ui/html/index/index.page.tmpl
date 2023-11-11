@@ -58,24 +58,9 @@
 </html>
 <script>
     onload = newPageLoad();
-    function setCurrentActiveTabs() {
-        // Set all the first elements to be active
-        const allTabs = document.getElementsByClassName("tab-content");
-        for (let i = 0; i < allTabs.length; i++) {
-            const panes = allTabs[i].getElementsByClassName("tab-pane");
-            for (let j = 0; j < panes.length; j++) {
-                if (j == 0) {
-                    panes[j].classList.add("active");
-                } else {
-                    panes[j].style.display = "none";
-                }
-            }
-        }
-    }
     function newPageLoad() {
         setDevModeToggle();
         setDarkModeToggle();
-        setCurrentActiveTabs();
         toggleDevMode();
         toggleDarkMode();
         search();
@@ -83,17 +68,15 @@
     }
     function toggleDevMode() {
         const devToggle = document.getElementById("dev-mode-toggle");
-        const cards = document.getElementsByClassName("portal-card");
         setCookie("devMode", devToggle.checked, 10);
         setTheme(document.body.getAttribute('data-theme'), devToggle.checked);
-        for (let i = 0; i < cards.length; i++) {
-            const dev_attr = cards[i].getAttribute("dev");
-            if (!devToggle.checked && dev_attr == "true") {
-                cards[i].style.display = "none";
+        document.getElementsByClassName("portal-card").forEach((card) => {
+            if (!devToggle.checked && card.getAttribute("dev") == "true") {
+                card.style.display = "none";
             } else {
-                cards[i].style.display = "";
+                card.style.display = "";
             }
-        }
+        });
         window.dispatchEvent(new Event("resize"));
     }
     function clickTab(tab) {
@@ -101,26 +84,21 @@
         const command = tab.id.split("-");
         const clickedTab = command[2];
         const card = document.getElementById(command[0]);
-        const tabPanes = card.getElementsByClassName("tab-pane");
-        for (let j = 0; j < tabPanes.length; j++) {
-            if (tabPanes[j].id == clickedTab) {
-                tabPanes[j].style.display = "";
-                tabPanes[j].classList.add("active");
+        card.getElementsByClassName("tab-pane").forEach((tabPane) => {
+            if (tabPane.id == clickedTab) {
+                tabPane.style.display = "";
+                tabPane.classList.add("active");
             } else {
-                tabPanes[j].style.display = "none";
-                tabPanes[j].classList.remove("active");
+                tabPane.style.display = "none";
+                tabPane.classList.remove("active");
             }
-        }
+        });
     }
     function toggleFavourites(service) {
         const id = service.id
         var favourites = getCookie("favourites") || "";
         if (!favourites.includes(id)) {
-            if (favourites) {
-                favourites = favourites + " " + id
-            } else {
-                favourites = id
-            }
+            favourites = favourites ? favourites + " " + id : id
         } else {
             favourites = favourites.replace(id, "")
         }
