@@ -16,6 +16,13 @@ func GenerateIndexData(displayServices dt.DisplayServices, pipelineFile dt.Pipel
 	}
 }
 
+func GenerateAdminData(servicesFile dt.ServicesFile, messages ...dt.Message) dt.AdminData {
+	return dt.AdminData{
+		ServicesFile: servicesFile,
+		Messages:     messages,
+	}
+}
+
 func GenerateServiceCardData(service dt.Service, favourite bool, pipelines map[string]dt.Pipeline) dt.ServiceCardData {
 	return dt.ServiceCardData{
 		Service:       service,

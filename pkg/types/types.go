@@ -36,6 +36,11 @@ type Environment struct {
 	LogsUrl  string `json:"logs_url"`
 }
 
+type Message struct {
+	Status  string
+	Message string
+}
+
 type PipelineFile struct {
 	Pipelines map[string]Pipeline `json:"pipelines"`
 }
@@ -66,6 +71,7 @@ type IndexData struct {
 
 type AdminData struct {
 	ServicesFile ServicesFile
+	Messages     []Message
 }
 
 type ServiceCardData struct {

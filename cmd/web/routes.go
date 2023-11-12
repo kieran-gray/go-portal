@@ -2,10 +2,13 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/go-chi/chi/v5"
-	utils "github.com/kieran-gray/go-portal/pkg/utils"
 	"html/template"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	dt "github.com/kieran-gray/go-portal/pkg/types"
+	utils "github.com/kieran-gray/go-portal/pkg/utils"
 )
 
 var indexTemplateFunctions = template.FuncMap{
@@ -29,8 +32,8 @@ var templateToFuncMap = map[string]template.FuncMap{
 }
 
 func (app *application) index(w http.ResponseWriter, r *http.Request) {
-	servicesFile := app.getServicesFile("services.json")
-	pipelineFile := app.getPipelineFile("gitlabPipelineData.json")
+	servicesFile := app.getServicesFile(app.config.SERVICES_FILENAME)
+	pipelineFile := app.getPipelineFile(app.config.PIPELINE_DATA_FILENAME)
 	favourites := utils.GetFavourites(r)
 
 	templateData := utils.GenerateIndexData(utils.GetDisplayServices(servicesFile.Services, favourites), pipelineFile)
@@ -38,29 +41,28 @@ func (app *application) index(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) adminGet(w http.ResponseWriter, r *http.Request) {
-	servicesFile := app.getServicesFile("services.json")
-	app.render(w, r, "admin", servicesFile)
+	servicesFile := app.getServicesFile(app.config.SERVICES_FILENAME)
+	app.render(w, r, "admin", utils.GenerateAdminData(servicesFile))
 }
 
 func (app *application) adminPost(w http.ResponseWriter, r *http.Request) {
-	app.infoLog.Print("POST /admin: processing request")
+	messages := []dt.Message{}
 	servicesFile, err := utils.ParseServicesFromRequest(r)
 	if err != nil {
 		app.serverError(w, err)
 	}
-
-	app.infoLog.Print("POST /admin: parsed request body")
-	err = app.s3Client.Upload("services.json", servicesFile)
+	err = app.s3Client.Upload(app.config.SERVICES_FILENAME, servicesFile)
 	if err != nil {
 		app.serverError(w, err)
+		messages = append(messages, dt.Message{Status: "failure", Message: "Failed to upload changes to S3"})
+	} else {
+		messages = append(messages, dt.Message{Status: "success", Message: "Successfully uploaded changes to S3"})
 	}
-
-	app.fileCache["services.json"] = servicesFile
-	http.Redirect(w, r, "/admin", http.StatusSeeOther)
+	app.fileCache[app.config.SERVICES_FILENAME] = servicesFile
+	app.render(w, r, "admin", utils.GenerateAdminData(servicesFile, messages...))
 }
 
 func (app *application) adminAddEnvironment(w http.ResponseWriter, r *http.Request) {
-	app.infoLog.Print("POST /admin/addEnv: processing request")
 	serviceId := chi.URLParam(r, "id")
 	serviceType := chi.URLParam(r, "serviceType")
 	servicesFile, err := utils.ParseServicesFromRequest(r)
@@ -68,22 +70,20 @@ func (app *application) adminAddEnvironment(w http.ResponseWriter, r *http.Reque
 		app.serverError(w, err)
 	}
 	servicesFile.Services = utils.AddEnvironment(servicesFile.Services, serviceId, serviceType)
-	app.render(w, r, "admin", servicesFile)
+	app.render(w, r, "admin", utils.GenerateAdminData(servicesFile))
 }
 
 func (app *application) adminAddService(w http.ResponseWriter, r *http.Request) {
-	app.infoLog.Print("POST /admin/addService: processing request")
 	servicesFile, err := utils.ParseServicesFromRequest(r)
 	if err != nil {
 		app.serverError(w, err)
 	}
-	app.infoLog.Print("POST /admin/addService: parsed request body")
 	servicesFile.Services = utils.AddService(servicesFile.Services)
-	app.render(w, r, "admin", servicesFile)
+	app.render(w, r, "admin", utils.GenerateAdminData(servicesFile))
 }
 
 func (app *application) services(w http.ResponseWriter, r *http.Request) {
-	servicesFile := app.getServicesFile("services.json")
+	servicesFile := app.getServicesFile(app.config.SERVICES_FILENAME)
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(servicesFile)
 	if err != nil {
@@ -92,7 +92,7 @@ func (app *application) services(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) pipelines(w http.ResponseWriter, r *http.Request) {
-	PipelineFile := app.getPipelineFile("gitlabPipelineData.json")
+	PipelineFile := app.getPipelineFile(app.config.PIPELINE_DATA_FILENAME)
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(PipelineFile)
 	if err != nil {
@@ -102,6 +102,7 @@ func (app *application) pipelines(w http.ResponseWriter, r *http.Request) {
 
 func (app *application) routes() *chi.Mux {
 	router := chi.NewRouter()
+	router.Use(middleware.Logger)
 	router.Get("/", app.index)
 	router.Route("/admin", func(router chi.Router) {
 		router.Get("/", app.adminGet)

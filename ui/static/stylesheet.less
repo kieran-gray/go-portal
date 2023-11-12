@@ -6,6 +6,7 @@
 @dark-api-color: #050024;
 @primary-button-color: #0d6efd;
 @ok-color: #44bb77;
+@failure-color: #f44336;
 @running-color: #1f75cb;
 @warning-color: #ffaa44;
 @critical-color: #ff5566;
@@ -872,4 +873,36 @@ body {
         font-weight: bolder;
         transition-duration: 0.5s;
     }
+}
+
+.alert {
+    padding: 20px;
+    margin: auto;
+    margin-top: 15px;
+    color: white;
+    margin-bottom: 15px;
+    max-width: 50%;
+
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            color: black;
+        }
+    }
+}
+
+.alert-success {
+    background-color: @ok-color;
+}
+
+.alert-failure {
+    background-color: @failure-color;
 }

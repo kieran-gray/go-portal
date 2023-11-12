@@ -40,9 +40,15 @@
             </div>
         </div>
     </header>
+    {{ range .Messages }}
+        <div class="alert alert-{{ .Status }}">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            {{ .Message }}
+        </div>
+    {{ end }}
     <div class="application-container">
         <form action="" class="admin-form" id="admin-form">
-            {{range .Services}}
+            {{range .ServicesFile.Services}}
                 {{ template "admin-card" generateAdminCardData .}}
             {{end}}
             <div class="admin-button-row">

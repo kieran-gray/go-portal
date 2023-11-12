@@ -45,6 +45,12 @@
             </div>
         </div>
     </header>
+    {{ if and (eq (len .Favourites) 0) (eq (len .Services) 0) }}
+        <div class="alert alert-failure">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            No services to show
+        </div>
+    {{ end }}
     <div class="application-container">
         {{range .Favourites}}
             {{ template "service-card" generateServiceCardData . true $pipelines}}

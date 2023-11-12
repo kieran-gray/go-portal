@@ -2,25 +2,58 @@ package main
 
 import (
 	"flag"
-	S3Client "github.com/kieran-gray/go-portal/pkg/s3Client"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/joho/godotenv"
+	S3Client "github.com/kieran-gray/go-portal/pkg/s3Client"
 )
 
 type application struct {
 	errorLog      *log.Logger
 	infoLog       *log.Logger
+	config        config
 	templateCache map[string]*template.Template
 	fileCache     map[string]interface{}
 	s3Client      S3Client.S3
 }
 
+type config struct {
+	HOST                   string
+	PORT                   string
+	SERVICES_FILENAME      string
+	PIPELINE_DATA_FILENAME string
+}
+
 const templateRootDir string = "./ui/html/"
 
+func ensureEnv(key string) string {
+	value, present := os.LookupEnv(key)
+	if !present {
+		panic(fmt.Sprintf("%s env variable not set", key))
+	}
+	return value
+}
+
+func getConfig() config {
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
+	return config{
+		HOST:                   ensureEnv("HOST"),
+		PORT:                   ensureEnv("PORT"),
+		SERVICES_FILENAME:      ensureEnv("SERVICES_FILENAME"),
+		PIPELINE_DATA_FILENAME: ensureEnv("PIPELINE_DATA_FILENAME"),
+	}
+}
+
 func main() {
-	addr := flag.String("addr", "0.0.0.0:8080", "HTTP network address")
+	config := getConfig()
+	addr := flag.String("addr", fmt.Sprintf("%s:%s", config.HOST, config.PORT), "HTTP network address")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
@@ -34,6 +67,7 @@ func main() {
 	app := &application{
 		errorLog:      errorLog,
 		infoLog:       infoLog,
+		config:        config,
 		templateCache: templateCache,
 		fileCache:     map[string]interface{}{},
 		s3Client:      S3Client.S3Client(),
