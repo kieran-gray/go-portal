@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -28,16 +27,10 @@ type S3 struct {
 	Downloader   *s3manager.Downloader
 }
 
-func S3Client() S3 {
+func S3Client(bucketConfig BucketConfig) S3 {
 	err := godotenv.Load()
 	if err != nil {
 		panic(err)
-	}
-	bucketConfig := BucketConfig{
-		AWS_ACCESS_KEY: os.Getenv("AWS_ACCESS_KEY"),
-		AWS_SECRET_KEY: os.Getenv("AWS_SECRET_KEY"),
-		AWS_BUCKET:     os.Getenv("AWS_BUCKET"),
-		AWS_REGION:     os.Getenv("AWS_REGION"),
 	}
 	config := aws.Config{
 		Region:      &bucketConfig.AWS_REGION,

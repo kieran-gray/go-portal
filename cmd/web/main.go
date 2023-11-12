@@ -26,6 +26,7 @@ type config struct {
 	PORT                   string
 	SERVICES_FILENAME      string
 	PIPELINE_DATA_FILENAME string
+	BUCKET_CONFIG          S3Client.BucketConfig
 }
 
 const templateRootDir string = "./ui/html/"
@@ -48,6 +49,12 @@ func getConfig() config {
 		PORT:                   ensureEnv("PORT"),
 		SERVICES_FILENAME:      ensureEnv("SERVICES_FILENAME"),
 		PIPELINE_DATA_FILENAME: ensureEnv("PIPELINE_DATA_FILENAME"),
+		BUCKET_CONFIG: S3Client.BucketConfig{
+			AWS_ACCESS_KEY: ensureEnv("AWS_ACCESS_KEY"),
+			AWS_SECRET_KEY: ensureEnv("AWS_SECRET_KEY"),
+			AWS_BUCKET:     ensureEnv("AWS_BUCKET"),
+			AWS_REGION:     ensureEnv("AWS_REGION"),
+		},
 	}
 }
 
@@ -70,7 +77,7 @@ func main() {
 		config:        config,
 		templateCache: templateCache,
 		fileCache:     map[string]interface{}{},
-		s3Client:      S3Client.S3Client(),
+		s3Client:      S3Client.S3Client(config.BUCKET_CONFIG),
 	}
 
 	server := &http.Server{
