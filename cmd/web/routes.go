@@ -18,6 +18,7 @@ var indexTemplateFunctions = template.FuncMap{
 	"generateServiceCardFooterButtonData": utils.GenerateServiceCardFooterButtonData,
 	"getFormattedTimeSince":               utils.GetFormattedTimeSince,
 	"sortedByPriority":                    utils.SortedByPriority,
+	"getRepoType":                         utils.GetRepoType,
 }
 
 var adminTemplateFunctions = template.FuncMap{

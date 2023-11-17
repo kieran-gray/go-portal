@@ -30,11 +30,15 @@
     --api-background-gradient: linear-gradient(180deg, @api-color 0%, @light-api-color 100%);
     --pipeline-last-updated-color: #7a7a7a;
     --navigation-highlight: @light-ui-color;
+    --github-color: #24292f;
+    --github-color-active: #fff;
     --logs-icon: url('icons/file-earmark.svg');
     --company-logo: url("logo/logo.svg");
     --settings-icon: url('icons/settings.svg');
     --download-icon: url('icons/download.svg');
     --link-icon: url('icons/link.svg');
+    --github-logo: url('icons/github.svg');
+    --github-logo-active: url('icons/github-white.svg');
 }
 
 [data-theme="dark"] {
@@ -50,11 +54,15 @@
     --api-background-gradient: linear-gradient(180deg, @api-color 0%, @dark-api-color 100%);
     --pipeline-last-updated-color: #bbbbbb;
     --navigation-highlight: @dark-ui-color;
+    --github-color: #fff;
+    --github-color-active: #24292f;
     --logs-icon: url('icons/file-earmark-white.svg');
     --company-logo: url("logo/logo-white.svg");
     --settings-icon: url('icons/settings-white.svg');
     --download-icon: url('icons/download-white.svg');
     --link-icon: url('icons/link-white.svg');
+    --github-logo: url('icons/github-white.svg');
+    --github-logo-active: url('icons/github.svg');
 }
 
 * {
@@ -530,7 +538,7 @@ body {
                 }
             }
 
-            .repo-button {
+            .gitlab-button {
                 display: flex;
                 flex: 1 0 0%;
 
@@ -546,6 +554,26 @@ body {
                         color: white;
                         background-color: @gitlab-color;
                         background-image: url('icons/gitlab-white.svg');
+                    }
+                }
+            }
+
+            .github-button {
+                display: flex;
+                flex: 1 0 0%;
+
+                .btn {
+                    border: 1px solid var(--github-color);
+                    color: var(--github-color);
+                    background-image: var(--github-logo);
+                    background-size: 20px;
+                    background-position: right 7px bottom 50%;
+                    background-repeat: no-repeat;
+
+                    &:hover {
+                        color: var(--github-color-active);
+                        background-color: var(--github-color);
+                        background-image:var(--github-logo-active);
                     }
                 }
             }

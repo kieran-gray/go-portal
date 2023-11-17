@@ -159,3 +159,11 @@ func AddEnvironment(services []dt.Service, serviceId string, serviceType string)
 	}
 	return services
 }
+
+func GetRepoType(repositoryUrl string) string {
+	if strings.Contains(repositoryUrl, "gitlab") {
+		return "gitlab"
+	} else {
+		return "github"
+	}
+}
