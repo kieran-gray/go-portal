@@ -8,22 +8,29 @@ import (
 
 import dt "github.com/kieran-gray/go-portal/pkg/types"
 
-func GenerateIndexData(displayServices dt.DisplayServices, pipelineFile dt.PipelineFile) dt.IndexData {
+func GenerateIndexData(
+	displayServices dt.DisplayServices, pipelineFile dt.PipelineFile, workflowFile dt.WorkflowFile,
+) dt.IndexData {
 	return dt.IndexData{
 		Services:   displayServices.Services,
 		Favourites: displayServices.Favourites,
 		Pipelines:  pipelineFile.Pipelines,
+		Workflows:  workflowFile.Workflows,
 	}
 }
 
-func GenerateAdminData(servicesFile dt.ServicesFile, messages ...dt.Message) dt.AdminData {
+func GenerateAdminData(
+	servicesFile dt.ServicesFile, messages ...dt.Message,
+) dt.AdminData {
 	return dt.AdminData{
 		ServicesFile: servicesFile,
 		Messages:     messages,
 	}
 }
 
-func GenerateServiceCardData(service dt.Service, favourite bool, pipelines map[string]dt.Pipeline) dt.ServiceCardData {
+func GenerateServiceCardData(
+	service dt.Service, favourite bool, pipelines map[string]dt.Pipeline, workflows map[string]dt.Workflow,
+) dt.ServiceCardData {
 	return dt.ServiceCardData{
 		Service:       service,
 		Id:            GenerateServiceId(service),
@@ -32,6 +39,7 @@ func GenerateServiceCardData(service dt.Service, favourite bool, pipelines map[s
 		HasUi:         len(service.Ui.Environments) > 0,
 		HasApi:        len(service.Api.Environments) > 0,
 		Pipelines:     pipelines,
+		Workflows:     workflows,
 	}
 }
 
@@ -58,7 +66,9 @@ func GenerateAdminCardTabData(service dt.Service, serviceType string) dt.AdminCa
 	}
 }
 
-func generatePipelineData(serviceDetails dt.ServiceDetails, pipelines map[string]dt.Pipeline, serviceId string) dt.PipelineData {
+func generatePipelineData(
+	serviceDetails dt.ServiceDetails, pipelines map[string]dt.Pipeline, serviceId string,
+) dt.PipelineData {
 	pipelineData := dt.PipelineData{
 		Pipeline:    dt.Pipeline{},
 		HasPipeline: false,
@@ -72,7 +82,24 @@ func generatePipelineData(serviceDetails dt.ServiceDetails, pipelines map[string
 	return pipelineData
 }
 
-func GenerateServiceCardTabData(service dt.Service, serviceType string, favourite bool, pipelines map[string]dt.Pipeline) dt.ServiceCardTabData {
+func generateWorkflowData(
+	serviceDetails dt.ServiceDetails, workflows map[string]dt.Workflow, serviceId string,
+) dt.WorkflowData {
+	workflowData := dt.WorkflowData{
+		Workflow:    dt.Workflow{},
+		HasWorkflow: false,
+	}
+
+	workflow, ok := workflows[serviceDetails.RepositoryUrl]
+	if ok {
+		workflowData.Workflow = workflow
+		workflowData.HasWorkflow = true
+	}
+	return workflowData
+}
+
+func GenerateServiceCardTabData(serviceCardData dt.ServiceCardData, serviceType string) dt.ServiceCardTabData {
+	service := serviceCardData.Service
 	serviceId := GenerateServiceId(service)
 	showTab := false
 
@@ -93,8 +120,9 @@ func GenerateServiceCardTabData(service dt.Service, serviceType string, favourit
 		Name:           service.Metadata.Name,
 		ServiceType:    serviceType,
 		HasLogs:        HasLogs(serviceDetails),
-		Favourite:      favourite,
-		Pipeline:       generatePipelineData(serviceDetails, pipelines, serviceId),
+		Favourite:      serviceCardData.Favourite,
+		Pipeline:       generatePipelineData(serviceDetails, serviceCardData.Pipelines, serviceId),
+		Workflow:       generateWorkflowData(serviceDetails, serviceCardData.Workflows, serviceId),
 		ShowTab:        showTab,
 	}
 }

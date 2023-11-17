@@ -1,0 +1,13 @@
+{{ define "workflow" }}
+
+<div class="pipeline-container">
+    {{ $status := getWorkflowStatus . }}
+    <a target="_blank" class="pipeline-status pipeline-{{ $status }}" title="pipeline status" href={{ .Url }}></a>
+    <a target="_blank" class="pipeline-message message-{{ $status }}" href={{ .Url }}>
+        {{ .Name }} on {{ .Branch }}: {{ .Status }}
+    </a>
+    <div class="spacer" style="flex-grow:2"></div>
+    <div class="pipeline-last-updated" title="{{ .UpdatedAt }}" style="cursor: default;">{{ getFormattedTimeSince .UpdatedAt}}</div>
+</div>
+
+{{ end }}

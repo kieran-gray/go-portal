@@ -26,6 +26,7 @@ type config struct {
 	PORT                   string
 	SERVICES_FILENAME      string
 	PIPELINE_DATA_FILENAME string
+	WORKFLOW_DATA_FILENAME string
 	BUCKET_CONFIG          S3Client.BucketConfig
 }
 
@@ -57,6 +58,7 @@ func getConfig() config {
 		PORT:                   ensureEnv("PORT"),
 		SERVICES_FILENAME:      ensureEnv("SERVICES_FILENAME"),
 		PIPELINE_DATA_FILENAME: ensureEnv("PIPELINE_DATA_FILENAME"),
+		WORKFLOW_DATA_FILENAME: ensureEnv("WORKFLOW_DATA_FILENAME"),
 		BUCKET_CONFIG: S3Client.BucketConfig{
 			AWS_ACCESS_KEY:              ensureEnv("AWS_ACCESS_KEY"),
 			AWS_SECRET_KEY:              ensureEnv("AWS_SECRET_KEY"),

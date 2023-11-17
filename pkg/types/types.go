@@ -41,23 +41,6 @@ type Message struct {
 	Message string
 }
 
-type PipelineFile struct {
-	Pipelines map[string]Pipeline `json:"pipelines"`
-}
-
-type Pipeline struct {
-	Status        string `json:"status"`
-	UpdatedAt     string `json:"updated_at"`
-	PipelineUrl   string `json:"pipeline_url"`
-	ProjectId     int64  `json:"project_id"`
-	DefaultBranch string `json:"default_branch"`
-}
-
-type PipelineData struct {
-	Pipeline    Pipeline
-	HasPipeline bool
-}
-
 type DisplayServices struct {
 	Favourites []Service
 	Services   []Service
@@ -67,6 +50,7 @@ type IndexData struct {
 	Favourites []Service
 	Services   []Service
 	Pipelines  map[string]Pipeline
+	Workflows  map[string]Workflow
 }
 
 type AdminData struct {
@@ -82,6 +66,7 @@ type ServiceCardData struct {
 	HasUi         bool
 	HasApi        bool
 	Pipelines     map[string]Pipeline
+	Workflows     map[string]Workflow
 }
 
 type ServiceCardTabData struct {
@@ -92,6 +77,7 @@ type ServiceCardTabData struct {
 	HasLogs        bool
 	Favourite      bool
 	Pipeline       PipelineData
+	Workflow       WorkflowData
 	ShowTab        bool
 }
 
