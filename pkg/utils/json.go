@@ -3,7 +3,6 @@ package utils
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"os"
 
 	dt "github.com/kieran-gray/go-portal/pkg/types"
@@ -45,13 +44,4 @@ func ReadPipelineData() (dt.PipelineFile, error) {
 	}
 
 	return pipelineFile, nil
-}
-
-func SaveServices(servicesFile dt.ServicesFile) {
-	file, err := json.MarshalIndent(servicesFile, "", " ")
-	if err != nil {
-		log.Print(err.Error())
-		return
-	}
-	_ = os.WriteFile("services_output.json", file, 0644)
 }

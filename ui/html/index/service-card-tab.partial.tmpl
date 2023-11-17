@@ -24,6 +24,9 @@
         {{ if .Pipeline.HasPipeline }}
             {{ template "pipeline" .Pipeline.Pipeline }}        
         {{ end }}
+        {{ if .Workflow.HasWorkflow }}
+            {{ template "workflow" .Workflow.Workflow}}
+        {{ end }}
         <div class="footer-links">
             <div class="footer-buttons">
                 {{ range sortedByPriority .ServiceDetails.Environments }}

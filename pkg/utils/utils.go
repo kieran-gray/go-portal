@@ -121,6 +121,37 @@ func ParseServicesFromRequest(r *http.Request) (dt.ServicesFile, error) {
 	return services, nil
 }
 
+func ParseWebhookWorkflowFromRequest(r *http.Request) (dt.WebhookWorkflow, error) {
+	var workflow dt.WebhookWorkflow
+	err := json.NewDecoder(r.Body).Decode(&workflow)
+	if err != nil {
+		return workflow, err
+	}
+	return workflow, nil
+}
+
+func WebhookWorkflowToWorkflow(webhookWorkflow dt.WebhookWorkflow) dt.Workflow {
+	return dt.Workflow{
+		Status:     webhookWorkflow.WorkflowRun.Status,
+		Conclusion: webhookWorkflow.WorkflowRun.Conclusion,
+		UpdatedAt:  webhookWorkflow.WorkflowRun.UpdatedAt,
+		Url:        webhookWorkflow.WorkflowRun.Url,
+		Branch:     webhookWorkflow.WorkflowRun.HeadBranch,
+		Name:       webhookWorkflow.WorkflowRun.Name,
+	}
+}
+
+func GetWorkflowStatus(workflow dt.Workflow) string {
+	switch workflow.Status {
+	case "in_progress":
+		return "running"
+	case "completed":
+		return workflow.Conclusion
+	default:
+		return "unknown"
+	}
+}
+
 func AddService(services []dt.Service) []dt.Service {
 	service := dt.Service{
 		Metadata: dt.ServiceMetadata{

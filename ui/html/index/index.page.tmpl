@@ -1,6 +1,7 @@
 {{define "index"}}
 
 {{ $pipelines := .Pipelines }}
+{{ $workflows := .Workflows }}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,10 +54,10 @@
     {{ end }}
     <div class="application-container">
         {{range .Favourites}}
-            {{ template "service-card" generateServiceCardData . true $pipelines}}
+            {{ template "service-card" generateServiceCardData . true $pipelines $workflows}}
         {{end}}
         {{range .Services}}
-            {{ template "service-card" generateServiceCardData . false $pipelines}}
+            {{ template "service-card" generateServiceCardData . false $pipelines $workflows}}
         {{end}}
     </div>
 </body>

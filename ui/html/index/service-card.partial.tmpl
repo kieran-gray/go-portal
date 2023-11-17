@@ -15,10 +15,10 @@
     </div>
     <div class="tab-content text-center">
         {{ if .HasUi }}
-            {{ template "service-card-tab" generateServiceCardTabData .Service "ui" .Favourite .Pipelines}}
+            {{ template "service-card-tab" generateServiceCardTabData . "ui"}}
         {{ end }}
         {{ if .HasApi }}
-            {{ template "service-card-tab" generateServiceCardTabData .Service "api" .Favourite .Pipelines}}
+            {{ template "service-card-tab" generateServiceCardTabData . "api"}}
         {{ end }}
     </div>
 </div>
