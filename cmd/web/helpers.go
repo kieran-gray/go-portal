@@ -49,9 +49,10 @@ func (app *application) getServicesFile(filename string) dt.ServicesFile {
 		}
 		return servicesFile
 	}
+
 	bytes, err := app.s3Client.Download(filename)
 	if err != nil {
-		app.errorLog.Print((err.Error()))
+		app.errorLog.Printf("Failed to fetch file %s from S3. %v", filename, err)
 		return servicesFile
 	}
 	err = json.Unmarshal(bytes, &servicesFile)
@@ -76,7 +77,7 @@ func (app *application) getPipelineFile(filename string) dt.PipelineFile {
 	}
 	bytes, err := app.s3Client.Download(filename)
 	if err != nil {
-		app.errorLog.Print((err.Error()))
+		app.errorLog.Printf("Failed to fetch file %s from S3. %v", filename, err)
 		return pipelineFile
 	}
 
