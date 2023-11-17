@@ -33,7 +33,7 @@
         </div>
         {{ if .ServiceDetails.RepositoryUrl}}
             <div class="footer-links">
-                <div class="footer-buttons repo-button">
+                <div class="footer-buttons {{ getRepoType .ServiceDetails.RepositoryUrl }}-button">
                     <a type="button"
                         target="_blank"
                         class="btn btn-outline-success btn-sm"
