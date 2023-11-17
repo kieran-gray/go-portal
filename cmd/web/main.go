@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
-	"github.com/joho/godotenv"
 	S3Client "github.com/kieran-gray/go-portal/pkg/s3Client"
 )
 
@@ -39,21 +39,32 @@ func ensureEnv(key string) string {
 	return value
 }
 
-func getConfig() config {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
+func parseEnvToBool(key string, defaultValue bool) bool {
+	value, present := os.LookupEnv(key)
+	if !present {
+		return defaultValue
 	}
+	converted, err := strconv.ParseBool(value)
+	if err != nil {
+		return defaultValue
+	}
+	return converted
+}
+
+func getConfig() config {
 	return config{
 		HOST:                   ensureEnv("HOST"),
 		PORT:                   ensureEnv("PORT"),
 		SERVICES_FILENAME:      ensureEnv("SERVICES_FILENAME"),
 		PIPELINE_DATA_FILENAME: ensureEnv("PIPELINE_DATA_FILENAME"),
 		BUCKET_CONFIG: S3Client.BucketConfig{
-			AWS_ACCESS_KEY: ensureEnv("AWS_ACCESS_KEY"),
-			AWS_SECRET_KEY: ensureEnv("AWS_SECRET_KEY"),
-			AWS_BUCKET:     ensureEnv("AWS_BUCKET"),
-			AWS_REGION:     ensureEnv("AWS_REGION"),
+			AWS_ACCESS_KEY:              ensureEnv("AWS_ACCESS_KEY"),
+			AWS_SECRET_KEY:              ensureEnv("AWS_SECRET_KEY"),
+			AWS_BUCKET:                  ensureEnv("AWS_BUCKET"),
+			AWS_REGION:                  ensureEnv("AWS_REGION"),
+			AWS_ENDPOINT:                os.Getenv("AWS_ENDPOINT"),
+			AWS_USE_PATH_STYLE_ENDPOINT: parseEnvToBool("AWS_USE_PATH_STYLE_ENDPOINT", false),
+			AWS_DISABLE_SSL:             parseEnvToBool("AWS_DISABLE_SSL", false),
 		},
 	}
 }

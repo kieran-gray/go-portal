@@ -10,14 +10,16 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"github.com/joho/godotenv"
 )
 
 type BucketConfig struct {
-	AWS_ACCESS_KEY string
-	AWS_SECRET_KEY string
-	AWS_BUCKET     string
-	AWS_REGION     string
+	AWS_ACCESS_KEY              string
+	AWS_SECRET_KEY              string
+	AWS_BUCKET                  string
+	AWS_REGION                  string
+	AWS_ENDPOINT                string
+	AWS_USE_PATH_STYLE_ENDPOINT bool
+	AWS_DISABLE_SSL             bool
 }
 
 type S3 struct {
@@ -28,13 +30,11 @@ type S3 struct {
 }
 
 func S3Client(bucketConfig BucketConfig) S3 {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
 	config := aws.Config{
-		Region:      &bucketConfig.AWS_REGION,
-		Credentials: credentials.NewStaticCredentials(bucketConfig.AWS_ACCESS_KEY, bucketConfig.AWS_SECRET_KEY, ""),
+		Endpoint:         &bucketConfig.AWS_ENDPOINT,
+		Region:           &bucketConfig.AWS_REGION,
+		Credentials:      credentials.NewStaticCredentials(bucketConfig.AWS_ACCESS_KEY, bucketConfig.AWS_SECRET_KEY, ""),
+		S3ForcePathStyle: &bucketConfig.AWS_USE_PATH_STYLE_ENDPOINT,
 	}
 
 	sess := session.Must(session.NewSession(&config))

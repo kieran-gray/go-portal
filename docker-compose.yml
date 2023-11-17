@@ -4,8 +4,56 @@ services:
     restart: always
     build: .
     env_file:
-      - .env
+      - ./config/.env.live
     ports:
       - 8080:8080
     volumes: 
       - .:/app
+    profiles:
+      - live
+
+  dev:
+    image: goportal-app
+    ports: 
+      - 8080:8080
+    env_file:
+      - ./config/.env.local
+    volumes: 
+      - .:/app
+    depends_on:
+      - minio
+      - createbucket
+    profiles:
+      - local
+
+  minio:
+    image: 'minio/minio:latest'
+    ports:
+      - '${FORWARD_MINIO_PORT:-9000}:9000'
+      - '${FORWARD_MINIO_CONSOLE_PORT:-9090}:9090'
+    environment:
+      MINIO_ROOT_USER: 'root'
+      MINIO_ROOT_PASSWORD: 'password'
+    volumes:
+      - 'minio:/data/minio'
+    command: minio server /data/minio --console-address ":9090"
+    profiles:
+      - local
+
+  createbucket:
+    image: 'minio/mc'
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 root password;
+      /usr/bin/mc mb myminio/${AWS_BUCKET:-go-portal};
+      /usr/bin/mc anonymous set public myminio/${AWS_BUCKET:-go-portal};
+      exit 0;
+      "
+    profiles:
+      - local
+
+volumes:
+  minio:
+    driver: local
