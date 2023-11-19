@@ -1,21 +1,22 @@
 {{ define "admin-card" }}
 
 {{ $serviceName := .Service.Metadata.Name}}
-<div class="admin-card" id="{{ .Id }}" data-search="{{ .SearchAliases }}">
+{{ $id := .Id }}
+<div class="admin-card" id="{{ $id }}" data-search="{{ .SearchAliases }}">
   <div class="admin-title-row">
     <p class="admin-title">{{ $serviceName }}</p><br>
-    <div class="more-menu" id="{{ .Id }}-menu">
-      <img title="Menu" class="more-button" id="more-button" src="static/icons/more.svg" onclick='toggleMenu("{{ .Id }}-menu")'></img>
+    <div class="more-menu" id="{{ $id }}-menu">
+      <img title="Menu" class="more-button" id="more-button" src="static/icons/more.svg" onclick='toggleMenu("{{ $id }}-menu")'></img>
       <div class="more-content">
         <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
-          <button class="delete-button" type="button" onclick='deleteService("{{ .Id }}", "{{ $serviceName }}")'>
+          <button class="delete-button" type="button" onclick='deleteService("{{ $id }}", "{{ $serviceName }}")'>
             Delete Service
           </button>
         </div>
       </div>
     </div>
   </div>
-  <div class="admin-metadata">
+  <div class="admin-metadata" id="{{ $id }}-metadata">
     {{ $metadataMap := toMap .Service.Metadata }}
     <div class="input-row">
       <p class="input-label">Dev Only: </p>
@@ -36,6 +37,7 @@
           <input 
             class="input-text"
             type="text"
+            id='{{ $id }}-metadata-{{ $key }}'
             name='[{{ $serviceName }}][Metadata][{{ $key }}]'
             value="{{ $value }}"/>
           </div>
@@ -43,10 +45,10 @@
     {{ end }}
   </div>
   <div class="admin-card-tabs">
-    <a class="ui" id="{{ .Id }}-tab-ui" onClick="clickTab(this)" class="nav-link" role="tab">
+    <a class="ui" id="{{ $id }}-tab-ui" onClick="clickTab(this)" class="nav-link" role="tab">
       UI
     </a>
-    <a class="api" id="{{ .Id }}-tab-api" onClick="clickTab(this)" class="nav-link" role="tab">
+    <a class="api" id="{{ $id }}-tab-api" onClick="clickTab(this)" class="nav-link" role="tab">
       API
     </a>
   </div>

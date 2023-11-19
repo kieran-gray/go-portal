@@ -1,0 +1,13 @@
+<svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>Layer 1</title>
+  <g>
+   <g>
+    <circle fill="none" stroke-width="1.5" stroke="#1f75cb" r="6" cy="7" cx="7"/>
+   </g>
+  </g>
+  <rect id="svg_1" height="4" width="0.5" y="5" x="5.8" stroke="#1f75cb"/>
+  <rect id="svg_2" height="4" width="0.5" y="5" x="8.2" stroke="#1f75cb"/>
+ </g>
+</svg>

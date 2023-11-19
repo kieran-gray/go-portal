@@ -150,6 +150,7 @@
     async function submitForm(button) {
         const form = document.getElementById("admin-form");
         const formData = new FormData(form);
+        var body = buildJsonFormData(formData)
 
         var paneId = undefined
         const submitter = button.name || "submit";
@@ -157,25 +158,32 @@
         if (submitter === "addService") {
             url += "/addService";
         } else if (submitter.startsWith("addEnvironment")) {
-            var values = submitter.split("-").pop().split("&");
-            url += "/addEnv/"+values[0]+"&"+values[1];
-            paneId = values[0]+"-"+values[1]+"-pane"
+            const [serviceName, serviceType] = submitter.split("&").slice(-2);
+            // Get the updated service name or the pane won't exist when the page
+            // is regenerated with the new environment.
+            const updatedServiceName = document.getElementById(serviceName+"-metadata-Name").value
+            paneId = updatedServiceName+"-"+serviceType+"-pane"
+            url += "/addEnv/"+updatedServiceName+"&"+serviceType;
+        } else {
+            // Only sort when we are submitting to prevent the service you are
+            // editing from being moved when adding an environment or new service
+            body.services = sortServices(body.services)
         }
         const response = await fetch(url, {
             method: "POST",
             headers: buildHeaders(),
-            body: JSON.stringify(buildJsonFormData(formData)),
+            body: JSON.stringify(body),
         });
         if (response.status == 200) {
             var newBody = document.createElement("body")
             newBody.innerHTML = await response.text()
             document.getElementsByTagName("body")[0].replaceWith(newBody)
             
-            var scrollElement = paneId ? document.getElementById(values[0]+"-"+values[1]+"-pane") : window;
+            var scrollElement = paneId ? document.getElementById(paneId) : window;
             newPageLoad(scrollElement);
             scrollElement.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-            console.log(response.status)
+            console.error(response)
         }
     }
 
@@ -233,6 +241,12 @@
             "Authorization": (authorization) ? authorization : "Bearer TOKEN_MISSING"
         };
         return headers;
+    }
+
+    function sortServices(services) {
+        return services.sort((a, b) => {
+            return a.metadata.name.toLowerCase().localeCompare(b.metadata.name.toLowerCase());
+        });
     }
 </script>
 

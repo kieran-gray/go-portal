@@ -32,10 +32,10 @@ type WorkflowData struct {
 }
 
 type Workflow struct {
-	Status     string
-	Conclusion string
-	UpdatedAt  string
-	Url        string
-	Name       string
-	Branch     string
+	Status     string `json:"Status"`
+	Conclusion string `json:"Conclusion"`
+	UpdatedAt  string `json:"UpdatedAt"`
+	Url        string `json:"Url"`
+	Name       string `json:"Name"`
+	Branch     string `json:"Branch"`
 }
