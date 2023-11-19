@@ -7,9 +7,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strconv"
 
 	S3Client "github.com/kieran-gray/go-portal/pkg/s3Client"
+	utils "github.com/kieran-gray/go-portal/pkg/utils"
 )
 
 type application struct {
@@ -32,41 +32,21 @@ type config struct {
 
 const templateRootDir string = "./ui/html/"
 
-func ensureEnv(key string) string {
-	value, present := os.LookupEnv(key)
-	if !present {
-		panic(fmt.Sprintf("%s env variable not set", key))
-	}
-	return value
-}
-
-func parseEnvToBool(key string, defaultValue bool) bool {
-	value, present := os.LookupEnv(key)
-	if !present {
-		return defaultValue
-	}
-	converted, err := strconv.ParseBool(value)
-	if err != nil {
-		return defaultValue
-	}
-	return converted
-}
-
 func getConfig() config {
 	return config{
-		HOST:                   ensureEnv("HOST"),
-		PORT:                   ensureEnv("PORT"),
-		SERVICES_FILENAME:      ensureEnv("SERVICES_FILENAME"),
-		PIPELINE_DATA_FILENAME: ensureEnv("PIPELINE_DATA_FILENAME"),
-		WORKFLOW_DATA_FILENAME: ensureEnv("WORKFLOW_DATA_FILENAME"),
+		HOST:                   utils.EnsureEnv("HOST"),
+		PORT:                   utils.EnsureEnv("PORT"),
+		SERVICES_FILENAME:      utils.EnsureEnv("SERVICES_FILENAME"),
+		PIPELINE_DATA_FILENAME: utils.EnsureEnv("PIPELINE_DATA_FILENAME"),
+		WORKFLOW_DATA_FILENAME: utils.EnsureEnv("WORKFLOW_DATA_FILENAME"),
 		BUCKET_CONFIG: S3Client.BucketConfig{
-			AWS_ACCESS_KEY:              ensureEnv("AWS_ACCESS_KEY"),
-			AWS_SECRET_KEY:              ensureEnv("AWS_SECRET_KEY"),
-			AWS_BUCKET:                  ensureEnv("AWS_BUCKET"),
-			AWS_REGION:                  ensureEnv("AWS_REGION"),
+			AWS_ACCESS_KEY:              utils.EnsureEnv("AWS_ACCESS_KEY"),
+			AWS_SECRET_KEY:              utils.EnsureEnv("AWS_SECRET_KEY"),
+			AWS_BUCKET:                  utils.EnsureEnv("AWS_BUCKET"),
+			AWS_REGION:                  utils.EnsureEnv("AWS_REGION"),
 			AWS_ENDPOINT:                os.Getenv("AWS_ENDPOINT"),
-			AWS_USE_PATH_STYLE_ENDPOINT: parseEnvToBool("AWS_USE_PATH_STYLE_ENDPOINT", false),
-			AWS_DISABLE_SSL:             parseEnvToBool("AWS_DISABLE_SSL", false),
+			AWS_USE_PATH_STYLE_ENDPOINT: utils.ParseEnvToBool("AWS_USE_PATH_STYLE_ENDPOINT", false),
+			AWS_DISABLE_SSL:             utils.ParseEnvToBool("AWS_DISABLE_SSL", false),
 		},
 	}
 }

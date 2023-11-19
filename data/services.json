@@ -1,0 +1,732 @@
+{
+    "metadata": {
+        "last_updated_on": "2023-11-19T09:39:27.177Z",
+        "last_updated_by": "Unknown",
+        "version": "Unknown"
+    },
+    "services": [
+        {
+            "metadata": {
+                "name": "Facilitate Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Provides backend support for tools and features, facilitating collaboration and interaction within the system.",
+                "repository_url": "https://github.com/company/facilitate-service-api",
+                "environments": [
+                    {
+                        "name": "prod",
+                        "priority": 1,
+                        "url": "https://facilitate-service.prod.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/30871d4f-b86e-465c-9bba-eb9ad494607c"
+                    },
+                    {
+                        "name": "pre-prod",
+                        "priority": 2,
+                        "url": "https://facilitate-service.pre-prod.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/d458df96-e4c1-41c3-998f-92b587856f69"
+                    },
+                    {
+                        "name": "sit",
+                        "priority": 3,
+                        "url": "https://facilitate-service.sit.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/9e92ec98-3b55-4130-a27c-da71fa49dfef"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Motivate Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Implements logic for motivational feedback and manages incentives.",
+                "repository_url": "https://github.com/company/motivate-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://motivate-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/96bde083-ed3e-4d44-b0f5-35df86ecc33a"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://motivate-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/869b6814-a7a9-43e8-b8b6-ec0f5e16cb94"
+                    },
+                    {
+                        "name": "test",
+                        "priority": 3,
+                        "url": "https://motivate-service.test.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/b222b4ec-dcbd-418d-881d-8f08bfea9cf4"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Guess Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Utilizes machine learning or probabilistic algorithms to make predictions based on available data.",
+                "repository_url": "https://github.com/company/guess-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://guess-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/ef993948-3d84-4524-8376-51783d08fe1b"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://guess-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/02c0916f-b2a6-467f-86d6-4233aa680120"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://guess-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/bf3f982e-1f41-46c6-b3f7-5beb74db389b"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Relax Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Manages system resources and optimizes performance.",
+                "repository_url": "https://github.com/company/relax-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://relax-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/84aab2c9-76f3-4d98-b088-b3e844e40bd4"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://relax-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/f1f3e605-0bd7-4294-b241-b79a5a998dbe"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://relax-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/f896f427-fed7-4001-b7f8-dbec9104913a"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Shine Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Enhances the user interface with dynamic and interactive elements.",
+                "repository_url": "https://github.com/company/shine-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://shine-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/be6f50e5-9a6e-4d03-a206-175faded04b5"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://shine-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/2fb7404f-c75c-4b1f-84a0-e9f78aa29170"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://shine-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/709b3217-b4ee-45a7-9d18-a9006392020c"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Ship Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Sail the Digital Seas! Navigating data through the vast ocean of bits.",
+                "repository_url": "https://github.com/company/ship-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://ship-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/29434f69-bfba-4650-84bc-afa795b74617"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://ship-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/140c39e1-f160-4fbe-b4bc-c170d3eba056"
+                    },
+                    {
+                        "name": "test",
+                        "priority": 3,
+                        "url": "https://ship-service.test.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/7034be99-c144-466f-981e-d825f32a8340"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Proceed Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "Guides users through task progression with an interactive interface.",
+                "repository_url": "https://github.com/company/proceed-service-ui",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://proceed-service.production.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/61d7ee60-15ef-4d91-8c09-d956fa309d90"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://proceed-service.staging.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/084e9344-7ec5-4c5d-84a4-43f5ff54ece4"
+                    },
+                    {
+                        "name": "sit",
+                        "priority": 3,
+                        "url": "https://proceed-service.sit.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/7f863599-a487-4f73-a843-87ccc86ff143"
+                    }
+                ]
+            },
+            "api": {
+                "description": "Oversees and manages the progression of tasks and workflows.",
+                "repository_url": "https://github.com/company/proceed-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://proceed-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/71dac7b8-94a0-41ab-9c53-eabc07955a74"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://proceed-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/3501dd45-8d4c-4ef4-bd4c-19ed1122fbbf"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://proceed-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/aa1ce45c-7bd5-45d3-a16c-2bf6f3beecf7"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Markdown Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Making Text Fancy for No Reason. Because plain text is so last season.",
+                "repository_url": "https://github.com/company/markdown-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://markdown-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/1e995aac-1f3b-438b-9cfc-7d96b561f5c4"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://markdown-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/0e93f691-6b37-4cde-a2d4-7ab433ea39b9"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Accumulate Money Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Because Who Doesn't Love Money Piles? Digitally stacking bills.",
+                "repository_url": "https://github.com/company/accumulate-money-service-api",
+                "environments": [
+                    {
+                        "name": "prod",
+                        "priority": 1,
+                        "url": "https://accumulate-money-service.prod.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/613b1896-5838-44f2-a19f-0c464bfd17f2"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://accumulate-money-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/ac25e81c-e407-461b-949b-8a3fcdf932c7"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://accumulate-money-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/8c83830c-f9e2-46a6-8bbc-6a0b91e8b680"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Flood Protection Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "No Arks Needed, Just Some Code. Saving your data from the digital apocalypse.",
+                "repository_url": "https://github.com/company/flood-protection-service-api",
+                "environments": [
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://flood-protection-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/3ef56ae5-b53a-4f02-b7b5-68486f0ab005"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Action Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "For the Laziest Prodigies. Press the button, because doing things manually is so last century.",
+                "repository_url": "https://github.com/company/action-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://action-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/a92b8fd8-78a1-4379-87b1-757f18341e6f"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://action-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/7c6abc35-38da-4b15-b3d4-b0b23ee5b04b"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://action-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/849baf92-e556-4741-974a-fa7baf413519"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Scan Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Guarding Your Data Like a Paranoid Bodyguard. Protecting against cyber intruders, real and imaginary.",
+                "repository_url": "https://github.com/company/scan-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://scan-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/338d3067-b98f-476e-8947-40628a0b3bcb"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://scan-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/ab3290be-148e-4a19-ad6a-fbdff0e1aa8f"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Stir Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Because Microservices Need a Little Drama. Stirring the pot, because who doesn't love drama?",
+                "repository_url": "https://github.com/company/stir-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://stir-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/8f128c72-0070-47c6-8e49-f1850af66966"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://stir-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/7ba8fe21-647d-441b-bf6b-5adfeb58e344"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Describe Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Making Boring Stuff Sound Interesting. The Shakespeare of digital documentation.",
+                "repository_url": "https://github.com/company/describe-service-api",
+                "environments": [
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://describe-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/66985718-4c84-4354-bbe4-abc479fd0a84"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://describe-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/4aaf2230-8712-4825-95de-5350e56a0b09"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Figure Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "Test Service",
+                "repository_url": "https://github.com/company/figure-service-ui",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://figure-service.production.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/465c73b8-1450-4109-87dd-6896166f24b6"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://figure-service.staging.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/cfd4f664-f017-441c-9725-379a58b247e5"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://figure-service.dev.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/373eb260-ba40-4a97-b5c1-e964024ba76f"
+                    }
+                ]
+            },
+            "api": {
+                "description": "Test Service Backend ",
+                "repository_url": "https://github.com/company/figure-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://figure-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/9985c080-4942-43de-a83f-af38aa95710e"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://figure-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/89649ed7-bc5c-4247-b640-ff3915151cbb"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://figure-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/fbbfbac3-f782-4844-9807-d73ae9c62833"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Compose Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "Short description of compose service ui",
+                "repository_url": "https://github.com/company/compose-service-ui",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://compose-service.production.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/4ebf629d-0270-447a-a48f-1d465e22cd6d"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://compose-service.staging.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/b55b363c-59c8-4bc8-9d44-65a2751e8cd7"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://compose-service.dev.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/a7f4b60d-3162-4999-8b04-c7e9ef4ed821"
+                    }
+                ]
+            },
+            "api": {
+                "description": "Short description of compose service api",
+                "repository_url": "https://github.com/company/compose-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://compose-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/914ccc9e-5d5e-47c7-ad54-19452c945e36"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://compose-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/f0af2544-1feb-4a16-ab16-7fc5998d3dd5"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://compose-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/ab46ec82-155b-4ee0-9675-c73ef2426e9f"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Reflect Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "History Lessons for Your Data. Time travel without the DeLorean, just for your info.",
+                "repository_url": "https://github.com/company/reflect-service-api",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://reflect-service.production.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/db3e2d71-6258-4117-b85f-1be8a990322d"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://reflect-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/b679fb4e-fb1e-4d37-9192-2c1ef8266737"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://reflect-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/b293a29c-df6d-42c4-a4d0-fcc8fe92232a"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Filing Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Where Files Go to Escape Chaos. Because chaos theory doesn't apply to digital documents.",
+                "repository_url": "https://github.com/company/filing-service-api",
+                "environments": [
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://filing-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/25869f9e-8bee-4899-86d8-fda41733f226"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://filing-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/690b1012-462b-4eb7-8474-108795305d97"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Enquire Service",
+                "aliases": "",
+                "dev_only": true
+            },
+            "ui": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            },
+            "api": {
+                "description": "Ask Away, Like Google, But Safer. The oracle of questions and somewhat reliable answers.",
+                "repository_url": "https://github.com/company/enquire-service-api",
+                "environments": [
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://enquire-service.staging.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/b9705c8a-011d-4264-8901-b86cf9e7b13a"
+                    },
+                    {
+                        "name": "dev",
+                        "priority": 3,
+                        "url": "https://enquire-service.dev.company.net/api",
+                        "logs_url": "https://www.not-a-real-logs-website.com/0fc9283d-2468-4726-af8f-8c2c08a84867"
+                    }
+                ]
+            }
+        },
+        {
+            "metadata": {
+                "name": "Observe Service",
+                "aliases": "",
+                "dev_only": false
+            },
+            "ui": {
+                "description": "Because Your Data Has Trust Issues. Real-time spying, because we know you're skeptical.",
+                "repository_url": "https://github.com/company/observe-service-ui",
+                "environments": [
+                    {
+                        "name": "production",
+                        "priority": 1,
+                        "url": "https://observe-service.production.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/f015435b-4892-473b-9ddf-7edcf16a6aa3"
+                    },
+                    {
+                        "name": "staging",
+                        "priority": 2,
+                        "url": "https://observe-service.staging.company.net/ui",
+                        "logs_url": "https://www.not-a-real-logs-website.com/ae41a78e-db52-4264-bd2e-50d07233100f"
+                    }
+                ]
+            },
+            "api": {
+                "description": "",
+                "repository_url": "",
+                "environments": []
+            }
+        }
+    ]
+}
