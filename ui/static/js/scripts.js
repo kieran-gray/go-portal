@@ -35,17 +35,18 @@ function search() {
     }
 }
 
+function getPortalCardColor(theme, devMode) {
+    if (theme === "dark") {
+        return devMode ? "#242424" : "#181818";
+    } else {
+        return devMode ? "#ececec" : "#fff";
+    }
+}
+
 function setTheme(theme, devMode) {
     document.documentElement.style.setProperty("--dev-mode", devMode ? "block" : "none");
-    if (theme === 'dark') {
-        const color = devMode ? "#242424" : "#181818";
-        document.body.setAttribute('data-theme', 'dark');
-        document.documentElement.style.setProperty("--portal-background-color", color);
-    } else {
-        document.body.setAttribute('data-theme', "light");
-        const color = devMode ? "#ececec" : "white";
-        document.documentElement.style.setProperty("--portal-background-color", color);
-    }
+    document.body.setAttribute('data-theme', theme);
+    document.documentElement.style.setProperty("--portal-background-color", getPortalCardColor(theme, devMode));
 }
 
 function toggleDarkMode() {
@@ -53,11 +54,7 @@ function toggleDarkMode() {
     const devMode = devToggle ? devToggle.checked : false
     const darkMode = document.getElementById("dark-mode-toggle").checked;
     setCookie("darkMode", darkMode, 10);
-    if (darkMode) {
-        setTheme('dark', devMode);
-    } else {
-        setTheme('light', devMode);
-    }
+    setTheme(darkMode ? 'dark': 'light', devMode);
 }
 
 function setDarkModeToggle() {

@@ -1,3 +1,4 @@
+@primary-white: #fff;
 @ui-color: #ff8672;
 @light-ui-color: #ffbfa1;
 @dark-ui-color: #55180d;
@@ -15,23 +16,23 @@
 
 :root {
     --dev-mode: none;
+    --portal-background-color: @primary-white;
 }
 [data-theme="light"] {
-    --portal-background-color: #ececec;
     --logs-color: black;
-    --primary-color: #fff;
+    --primary-color: @primary-white;
     --default-text-color: #040e2b;
-    --card-body-background-color: white;
-    --body-background-color: white;
-    --search-background-color: white;
+    --card-body-background-color: @primary-white;
+    --body-background-color: @primary-white;
+    --search-background-color: @primary-white;
     --search-border-color: #ddd;
-    --admin-input-background-color: white;
+    --admin-input-background-color: @primary-white;
     --ui-background-gradient: linear-gradient(180deg, @ui-color 0%, @light-ui-color 100%);
     --api-background-gradient: linear-gradient(180deg, @api-color 0%, @light-api-color 100%);
     --pipeline-last-updated-color: #7a7a7a;
     --navigation-highlight: @light-ui-color;
     --github-color: #24292f;
-    --github-color-active: #fff;
+    --github-color-active: @primary-white;
     --logs-icon: url('icons/file-earmark.svg');
     --company-logo: url("logo/logo.svg");
     --settings-icon: url('icons/settings.svg');
@@ -44,7 +45,7 @@
 [data-theme="dark"] {
     --logs-color: #999999;
     --primary-color: #242424;
-    --default-text-color: white;
+    --default-text-color: @primary-white;
     --card-body-background-color: #181818;
     --body-background-color: #121212;
     --search-background-color: #242424;
@@ -54,7 +55,7 @@
     --api-background-gradient: linear-gradient(180deg, @api-color 0%, @dark-api-color 100%);
     --pipeline-last-updated-color: #bbbbbb;
     --navigation-highlight: @dark-ui-color;
-    --github-color: #fff;
+    --github-color: @primary-white;
     --github-color-active: #24292f;
     --logs-icon: url('icons/file-earmark-white.svg');
     --company-logo: url("logo/logo-white.svg");
@@ -68,7 +69,7 @@
 * {
     padding: 0;
     margin: 0;
-    font-family: arial;
+    font-family: 'Montserrat', sans-serif;
     text-rendering: optimizeLegibility;
 }
 
@@ -256,7 +257,7 @@ header {
                                 width: 18px;
                                 left: 4px;
                                 bottom: 4px;
-                                background-color: white;
+                                background-color: @primary-white;
                                 transition: .4s;
                             }
                         }
@@ -324,7 +325,7 @@ body {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: white;
+            color: @primary-white;
         }
 
         .card-title {
@@ -446,14 +447,20 @@ body {
             .pipeline-success {
                 background-image: url('icons/pipeline/status_success.svg');
             }
-            .pipeline-failed {
+            .pipeline-failed, .pipeline-failure {
                 background-image: url('icons/pipeline/status_failed.svg');
             }
             .pipeline-skipped {
                 background-image: url('icons/pipeline/status_skipped.svg');
             }
-            .pipeline-running {
+            .pipeline-running, .pipeline-in_progress {
                 background-image: url('icons/pipeline/status_running.svg');
+            }
+            .pipeline-pending, .pipeline-waiting {
+                background-image: url('icons/pipeline/status_pending.svg');
+            }
+            .pipeline-scheduled, .pipeline-requested, .pipeline-queued {
+                background-image: url('icons/pipeline/status_scheduled.svg');
             }
             .pipeline-message {
                 font-size: 12px;
@@ -466,12 +473,13 @@ body {
             .message-success {
                 color: @ok-color;
             }
-            .message-running {
+            .message-running, .message-pending, .message-scheduled, .message-in_progress, .message-waiting, .message-requested, .message-queued {
                 color: @running-color;
             }
-            .message-failed {
+            .message-failure, .message-failed {
                 color: @critical-color;
             }
+
             .pipeline-last-updated {
                 font-size: 12px;
                 padding: 2px 5px 5px 5px;
@@ -489,7 +497,6 @@ body {
             }
 
             .btn {
-                line-height: 20px;
                 font-size: 14px;
                 border-radius: .2rem;
                 margin: 4px;
@@ -519,7 +526,7 @@ body {
                     flex-grow: 2;
 
                     &:hover {
-                        color: white;
+                        color: @primary-white;
                         background-color: @primary-button-color;
                     }
                 }
@@ -551,7 +558,7 @@ body {
                     background-repeat: no-repeat;
 
                     &:hover {
-                        color: white;
+                        color: @primary-white;
                         background-color: @gitlab-color;
                         background-image: url('icons/gitlab-white.svg');
                     }
@@ -585,7 +592,7 @@ body {
         flex-direction: row;
         display: flex;
         cursor: pointer;
-        color: white;
+        color: @primary-white;
 
         .api {
             background-color: @api-color;
@@ -640,7 +647,7 @@ body {
 
 .delete-button {
     background-color: #d80202;
-    color: #fff;
+    color: @primary-white;
     text-align: center;
     vertical-align: middle;
     font-weight: 400;
@@ -727,7 +734,7 @@ body {
                 background-color: var(--portal-background-color);
                 color: var(--default-text-color);
                 border-style: solid;
-                color: white;
+                color: @primary-white;
 
                 &:hover {
                     text-decoration: underline;
@@ -776,7 +783,7 @@ body {
                     .add-environment-button {
                         background-color: #007bff;
                         text-align: center;
-                        color: #fff;
+                        color: @primary-white;
                         vertical-align: middle;
                         font-weight: 400;
                         font-size: 1rem;
@@ -855,7 +862,7 @@ body {
         border: none;
         padding: 14px 20px;
         cursor: pointer;
-        color: white;
+        color: @primary-white;
         font-size: 18px;
         right: 25px;
 
@@ -907,17 +914,16 @@ body {
     padding: 20px;
     margin: auto;
     margin-top: 15px;
-    color: white;
+    color: @primary-white;
     margin-bottom: 15px;
     max-width: 50%;
 
     .closebtn {
         margin-left: 15px;
-        color: white;
+        color: @primary-white;
         font-weight: bold;
         float: right;
         font-size: 22px;
-        line-height: 20px;
         cursor: pointer;
         transition: 0.3s;
 
