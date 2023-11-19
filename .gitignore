@@ -1,4 +1,4 @@
-*.json
 .env
 *.py
 .vscode
+python_scripts

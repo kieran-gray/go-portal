@@ -5,14 +5,36 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"reflect"
 	"slices"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
 	dt "github.com/kieran-gray/go-portal/pkg/types"
 )
+
+func EnsureEnv(key string) string {
+	value, present := os.LookupEnv(key)
+	if !present {
+		panic(fmt.Sprintf("%s env variable not set", key))
+	}
+	return value
+}
+
+func ParseEnvToBool(key string, defaultValue bool) bool {
+	value, present := os.LookupEnv(key)
+	if !present {
+		return defaultValue
+	}
+	converted, err := strconv.ParseBool(value)
+	if err != nil {
+		return defaultValue
+	}
+	return converted
+}
 
 func ToMap(data interface{}) map[string]reflect.Value {
 	// Assuming keys and values are same length
@@ -142,14 +164,10 @@ func WebhookWorkflowToWorkflow(webhookWorkflow dt.WebhookWorkflow) dt.Workflow {
 }
 
 func GetWorkflowStatus(workflow dt.Workflow) string {
-	switch workflow.Status {
-	case "in_progress":
-		return "running"
-	case "completed":
+	if workflow.Status == "completed" {
 		return workflow.Conclusion
-	default:
-		return "unknown"
 	}
+	return workflow.Status
 }
 
 func AddService(services []dt.Service) []dt.Service {
