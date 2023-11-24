@@ -18,7 +18,7 @@
         <div class="toolbar_title">Portal</div>
         <div class="spacer"></div>
         <div class="controls-container">
-            <input class="form-control rounded" type="search" id="searchBar" oninput="search()" placeholder="Search"
+            <input class="form-control rounded" type="search" id="searchBar" oninput="search('admin-card')" placeholder="Search"
                 autofocus="autofocus">
             <div class="dropdown-menu">
                 <button class="dropdown-btn"></button>
@@ -161,7 +161,7 @@
             const [serviceName, serviceType] = submitter.split("&").slice(-2);
             // Get the updated service name or the pane won't exist when the page
             // is regenerated with the new environment.
-            const updatedServiceName = document.getElementById(serviceName+"-metadata-Name").value
+            const updatedServiceName = document.getElementById(serviceName+"-metadata-Name").value.replaceAll(" ", "")
             paneId = updatedServiceName+"-"+serviceType+"-pane"
             url += "/addEnv/"+updatedServiceName+"&"+serviceType;
         } else {
