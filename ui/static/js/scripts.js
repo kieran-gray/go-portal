@@ -21,10 +21,11 @@ function setCookie(name, value, expiry) {
     document.cookie = name + "=" + value + ";" + expires + ";path=/;samesite=lax";
 }
 
-function search() {
+function search(cardType) {
+    var cardType = cardType ? cardType : "portal-card"
     const input = document.getElementById("searchBar");
     const filter = input.value.toUpperCase();
-    const cards = document.getElementsByClassName("portal-card");
+    const cards = document.getElementsByClassName(cardType);
     for (let i = 0; i < cards.length; i++) {
         const text = cards[i].getAttribute("data-search");
         if (text.toUpperCase().indexOf(filter) > -1) {
