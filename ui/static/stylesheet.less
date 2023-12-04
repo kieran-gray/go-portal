@@ -1,17 +1,18 @@
 @primary-white: #fff;
 @ui-color: #ff8672;
-@light-ui-color: #ffbfa1;
-@dark-ui-color: #55180d;
+@dark-ui-color: #ffbfa1;
 @api-color: #11bbb5;
-@light-api-color: #abe6f5;
-@dark-api-color: #050024;
-@primary-button-color: #0d6efd;
+@dark-api-color: #abe6f5;
+@primary-button-color: #79c7c4;
+@primary-button-color-hover: #0db8b3;
 @ok-color: #44bb77;
 @failure-color: #f44336;
 @running-color: #1f75cb;
 @warning-color: #ffaa44;
 @critical-color: #ff5566;
-@gitlab-color: #ff6600;
+@sentry-color-active: #e1567c;
+@sentry-color: #d7738e;
+@datadog-color: #5c2d90;
 @default-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
 
 :root {
@@ -19,7 +20,6 @@
     --portal-background-color: @primary-white;
 }
 [data-theme="light"] {
-    --logs-color: black;
     --primary-color: @primary-white;
     --default-text-color: #040e2b;
     --card-body-background-color: @primary-white;
@@ -27,13 +27,12 @@
     --search-background-color: @primary-white;
     --search-border-color: #ddd;
     --admin-input-background-color: @primary-white;
-    --ui-background-gradient: linear-gradient(180deg, @ui-color 0%, @light-ui-color 100%);
-    --api-background-gradient: linear-gradient(180deg, @api-color 0%, @light-api-color 100%);
+    --ui-color: @ui-color;
+    --api-color: @api-color;
     --pipeline-last-updated-color: #7a7a7a;
-    --navigation-highlight: @light-ui-color;
-    --github-color: #24292f;
-    --github-color-active: @primary-white;
-    --logs-icon: url('icons/file-earmark.svg');
+    --navigation-highlight: @ui-color;
+    --github-color-active: #20262e;
+    --github-color: #424a53;
     --company-logo: url("logo/logo.svg");
     --settings-icon: url('icons/settings.svg');
     --download-icon: url('icons/download.svg');
@@ -43,7 +42,6 @@
 }
 
 [data-theme="dark"] {
-    --logs-color: #999999;
     --primary-color: #242424;
     --default-text-color: @primary-white;
     --card-body-background-color: #181818;
@@ -51,13 +49,12 @@
     --search-background-color: #242424;
     --search-border-color: #999999;
     --admin-input-background-color: #363636;
-    --ui-background-gradient: linear-gradient(180deg, @ui-color 0%, @dark-ui-color 100%);
-    --api-background-gradient: linear-gradient(180deg, @api-color 0%, @dark-api-color 100%);
+    --ui-color: @dark-ui-color;
+    --api-color: @dark-api-color;
     --pipeline-last-updated-color: #bbbbbb;
-    --navigation-highlight: @dark-ui-color;
-    --github-color: @primary-white;
+    --navigation-highlight: @ui-color;
+    --github-color: #cfcfcf;
     --github-color-active: #24292f;
-    --logs-icon: url('icons/file-earmark-white.svg');
     --company-logo: url("logo/logo-white.svg");
     --settings-icon: url('icons/settings-white.svg');
     --download-icon: url('icons/download-white.svg');
@@ -190,6 +187,7 @@ header {
                         background-repeat: no-repeat;
                         width: 100%;
                         text-decoration: None;
+                        text-align: center;
                         border-radius: 0.2rem;
                         padding: 8px 5px 4px 5px;
                         margin: 0px -5px 0px -5px;
@@ -216,60 +214,106 @@ header {
                         padding: 8px 40px 0px 0px;
                     }
 
-                    .switch {
-                        position: relative;
-                        display: inline-block;
-                        width: 52px;
-                        height: 26px;
-
-                        input {
-                            opacity: 0;
-                            width: 0;
-                            height: 0;
-
-                            &:checked+.slider {
-                                background-color: #0d6efd;
-                            }
-
-                            &:focus+.slider {
-                                box-shadow: 0 0 1px #0d6efd;
-                            }
-
-                            &:checked+.slider:before {
-                                transform: translateX(26px);
+                    .tgl {
+                        display: none;
+                        &,
+                        &:after,
+                        &:before,
+                        & *,
+                        & *:after,
+                        & *:before,
+                        & + .tgl-btn {
+                            box-sizing: border-box;
+                            &::selection {
+                                background: none;
                             }
                         }
-
-                        .slider {
-                            position: absolute;
+                      
+                        + .tgl-btn {
+                            outline: 0;
+                            display: block;
+                            width: 4em;
+                            height: 2em;
+                            position: relative;
                             cursor: pointer;
-                            top: 0;
-                            left: 0;
-                            right: 0;
-                            bottom: 0;
-                            background-color: #ccc;
-                            transition: .4s;
-
+                            user-select: none;
+                            &:after,
                             &:before {
-                                position: absolute;
+                                position: relative;
+                                display: block;
                                 content: "";
-                                height: 18px;
-                                width: 18px;
-                                left: 4px;
-                                bottom: 4px;
-                                background-color: @primary-white;
-                                transition: .4s;
+                                width: 50%;
+                                height: 100%;
+                            }
+                        
+                            &:after {
+                                left: 0;
+                            }
+                        
+                            &:before {
+                                display: none;
                             }
                         }
+                      
+                        &:checked + .tgl-btn:after {
+                            left: 50%;
+                        }
+                    }
 
-                        .round {
-                            border-radius: 34px;
-
+                    .tgl-skewed {
+                        + .tgl-btn {
+                            overflow: hidden;
+                            backface-visibility: hidden;
+                            transition: all .2s ease;
+                            background: #888;
+                            border-radius: 15px;
+                            &:after,
+                        &:before {
+                                display: inline-block;
+                                transition: all .2s ease;
+                                width: 100%;
+                                text-align: center;
+                                position: absolute;
+                                line-height: 2em;
+                                font-weight: bold;
+                                color: #fff;
+                                text-shadow: 0 1px 0 rgba(0,0,0,.4);
+                            }
+                        
+                            &:after {
+                                left: 100%;
+                                content: attr(data-tg-on);
+                            }
+                        
                             &:before {
-                                border-radius: 50%;
+                                left: 0;
+                                content: attr(data-tg-off);
+                            }
+                        
+                            &:active {
+                                background: #888;
+                                &:before {
+                                    left: -10%;
+                                }
+                            }
+                        }
+                    
+                        &:checked + .tgl-btn {
+                            background: @ui-color;
+                            &:before {
+                                left: -100%;
+                            }
+
+                            &:after {
+                                left: 0;
+                            }
+
+                            &:active:after {
+                                left: 10%;
                             }
                         }
                     }
+                      
                 }
             }
         }
@@ -344,11 +388,11 @@ body {
         }
 
         .ui {
-            background: var(--ui-background-gradient);
+            background: var(--ui-color);
         }
 
         .api {
-            background: var(--api-background-gradient);
+            background: var(--api-color);
         }
 
         #service-name {
@@ -491,6 +535,7 @@ body {
             display: flex;
             flex-wrap: wrap;
             box-sizing: border-box;
+            line-height: 20px;
 
             .offset {
                 padding-right: 45px;
@@ -522,65 +567,86 @@ body {
 
                 .service-button {
                     border: 1px solid @primary-button-color;
-                    color: @primary-button-color;
+                    color: @primary-white;
+                    background-color: @primary-button-color;
                     flex-grow: 2;
+                    border-radius: 15px;
 
                     &:hover {
                         color: @primary-white;
-                        background-color: @primary-button-color;
+                        background-color: @primary-button-color-hover;
                     }
                 }
 
                 .logs-button {
-                    border: 1px solid var(--logs-color);
-                    color: #6c757d;
-                    background-image: var(--logs-icon);
+                    background-color: @datadog-color;
+                    background-image: url('icons/datadog.svg');
+                    background-size: 20px;
                     background-repeat: no-repeat;
                     background-position: left 50% top 50%;
                     min-width: 16px;
+                    border-radius: 10px;
 
                     &:hover {
-                        background-color: #6c757d;
+                        background-color: @datadog-color;
                     }
                 }
             }
-
-            .gitlab-button {
-                display: flex;
-                flex: 1 0 0%;
-
-                .btn {
-                    border: 1px solid @gitlab-color;
-                    color: @gitlab-color;
-                    background-image: url('icons/gitlab.svg');
-                    background-size: 20px;
-                    background-position: right 7px bottom 50%;
-                    background-repeat: no-repeat;
-
-                    &:hover {
-                        color: @primary-white;
-                        background-color: @gitlab-color;
-                        background-image: url('icons/gitlab-white.svg');
-                    }
-                }
-            }
-
             .github-button {
                 display: flex;
                 flex: 1 0 0%;
 
                 .btn {
-                    border: 1px solid var(--github-color);
-                    color: var(--github-color);
-                    background-image: var(--github-logo);
+                    color: @primary-white;
+                    background-color: var(--github-color);
+                    background-image: var(--github-logo-active);
                     background-size: 20px;
                     background-position: right 7px bottom 50%;
                     background-repeat: no-repeat;
+                    border-radius: 15px;
 
                     &:hover {
-                        color: var(--github-color-active);
-                        background-color: var(--github-color);
-                        background-image:var(--github-logo-active);
+                        background-color: var(--github-color-active);
+                    }
+                }
+            }
+
+            .sentry-button {
+                display: flex;
+                flex: 1 0 0%;
+
+                .btn {
+                    color: @primary-white;
+                    background-color: @sentry-color;
+                    background-image: url('icons/sentry-white.svg');
+                    background-size: 20px;
+                    background-position: right 7px bottom 50%;
+                    background-repeat: no-repeat;
+                    border-radius: 15px;
+
+                    &:hover {
+                        background-color: @sentry-color-active;
+                    }
+                }
+            }
+
+            .datadog-button {
+                display: flex;
+                flex: 1 0 0%;
+
+                .btn {
+                    border: 1px solid @datadog-color;
+                    color: @datadog-color;
+                    background-image: url('icons/datadog.svg');
+                    background-size: 20px;
+                    background-position: right 7px bottom 50%;
+                    background-repeat: no-repeat;
+                    border-radius: 15px;
+
+                    &:hover {
+                        color: @primary-white;
+                        background-color: @datadog-color;
+                        background-image: url('icons/datadog-white.svg');
                     }
                 }
             }

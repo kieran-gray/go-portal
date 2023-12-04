@@ -14,12 +14,9 @@ services:
 
   dev:
     image: go-portal-app
-    ports: 
-      - 8080:8080
+    extends: app
     env_file:
       - ./config/.env.local
-    volumes: 
-      - .:/app
     depends_on:
       - minio
       - createbucket

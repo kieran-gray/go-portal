@@ -1,18 +1,17 @@
+ifeq ("$(env)", "")
+	ENVIRONMENT = "local"
+else
+	ENVIRONMENT = $(env)
+endif
+
 install: build
 
 build:
 	docker compose build --no-cache app dev
 
-run-local:
-	docker compose --profile local up --build
+run:
+	docker compose --profile $(ENVIRONMENT) up --build
 
-run-live:
-	docker compose --profile live up --build
-
-seed-live:
+seed:
 	docker compose run --no-deps app sh -c '\
-	/uploadMockFiles --env-file ./app/config/.env.live'
-
-seed-local:
-	docker compose run dev sh -c '\
-	/uploadMockFiles --env-file ./config/.env.local'
+	/uploadMockFiles --env-file ./app/config/.env.$(ENVIRONMENT)'

@@ -14,14 +14,24 @@ import (
 func (app *application) serverError(w http.ResponseWriter, err error) {
 	trace := fmt.Sprintf("%s\n%s", err.Error(), debug.Stack())
 	_ = app.errorLog.Output(2, trace)
-	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	http.Error(
+		w,
+		http.StatusText(http.StatusInternalServerError),
+		http.StatusInternalServerError,
+	)
 }
 
-func (app *application) okResponse(w http.ResponseWriter) { w.WriteHeader(http.StatusOK) }
+func (app *application) okResponse(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusOK)
+}
 
-func (app *application) createdResponse(w http.ResponseWriter) { w.WriteHeader(http.StatusCreated) }
+func (app *application) createdResponse(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusCreated)
+}
 
-func (app *application) render(w http.ResponseWriter, r *http.Request, name string, data interface{}) {
+func (app *application) render(
+	w http.ResponseWriter, r *http.Request, name string, data interface{},
+) {
 	template, ok := app.templateCache[name]
 	if !ok {
 		app.serverError(w, fmt.Errorf("The template %s does not exist", name))
@@ -43,7 +53,9 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 	}
 }
 
-func getFileFromS3[T any](s3Client S3Client.S3, filename string, t T) (T, error) {
+func getFileFromS3[T any](
+	s3Client S3Client.S3, filename string, t T,
+) (T, error) {
 	bytes, err := s3Client.Download(filename)
 	if err != nil {
 		return t, err
@@ -55,7 +67,9 @@ func getFileFromS3[T any](s3Client S3Client.S3, filename string, t T) (T, error)
 	return t, nil
 }
 
-func getFileFromCache[T any](fileCache map[string]interface{}, filename string, t T) (T, error) {
+func getFileFromCache[T any](
+	fileCache map[string]interface{}, filename string, t T,
+) (T, error) {
 	inter, ok := fileCache[filename]
 	if !ok {
 		return t, fmt.Errorf("Filename %s not found in filecache", filename)
@@ -86,11 +100,6 @@ func getFile[T any](app *application, filename string, t T) T {
 func (app *application) getServicesFile(filename string) dt.ServicesFile {
 	var servicesFile dt.ServicesFile
 	return getFile[dt.ServicesFile](app, filename, servicesFile)
-}
-
-func (app *application) getPipelineFile(filename string) dt.PipelineFile {
-	var pipelineFile dt.PipelineFile
-	return getFile[dt.PipelineFile](app, filename, pipelineFile)
 }
 
 func (app *application) getWorkflowFile(filename string) dt.WorkflowFile {

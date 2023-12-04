@@ -1,6 +1,5 @@
 {{define "index"}}
 
-{{ $pipelines := .Pipelines }}
 {{ $workflows := .Workflows }}
 <!DOCTYPE html>
 <html lang="en">
@@ -27,17 +26,13 @@
                 <div class="dropdown-content">
                     <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
                         <p class="text" id="toggle-label">Dark Mode</p>
-                        <label class="switch" id="switch" onchange="toggleDarkMode()">
-                            <input type="checkbox" id="dark-mode-toggle">
-                            <span class="slider round"></span>
-                        </label>
+                        <input class="tgl tgl-skewed" id="dark-mode-toggle" type="checkbox" onchange="toggleDarkMode()"/>
+                        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="dark-mode-toggle"></label>
                     </div>
                     <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
                         <p class="text" id="toggle-label">Dev Mode</p>
-                        <label class="switch" id="switch" onchange="toggleDevMode()">
-                            <input type="checkbox" id="dev-mode-toggle">
-                            <span class="slider round"></span>
-                        </label>
+                        <input class="tgl tgl-skewed" id="dev-mode-toggle" type="checkbox" onchange="toggleDevMode()"/>
+                        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="dev-mode-toggle"></label>
                     </div>
                     <div class="row" id="toggle-row">
                         <a class="navigation-button" href="/admin">Admin</a>
@@ -54,10 +49,10 @@
     {{ end }}
     <div class="application-container">
         {{range .Favourites}}
-            {{ template "service-card" generateServiceCardData . true $pipelines $workflows}}
+            {{ template "service-card" generateServiceCardData . true $workflows}}
         {{end}}
         {{range .Services}}
-            {{ template "service-card" generateServiceCardData . false $pipelines $workflows}}
+            {{ template "service-card" generateServiceCardData . false $workflows}}
         {{end}}
     </div>
 </body>

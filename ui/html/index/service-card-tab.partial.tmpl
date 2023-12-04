@@ -21,9 +21,6 @@
         <div class="favourite-button {{ if .Favourite }} active {{ end }}" id="{{ .Id }}" onclick="toggleFavourites(this)"></div>
     </div>
     <div class="card-footer">
-        {{ if .Pipeline.HasPipeline }}
-            {{ template "pipeline" .Pipeline.Pipeline }}        
-        {{ end }}
         {{ if .Workflow.HasWorkflow }}
             {{ template "workflow" .Workflow.Workflow}}
         {{ end }}
@@ -36,7 +33,7 @@
         </div>
         {{ if .ServiceDetails.RepositoryUrl}}
             <div class="footer-links">
-                <div class="footer-buttons {{ getRepoType .ServiceDetails.RepositoryUrl }}-button">
+                <div class="footer-buttons github-button">
                     <a type="button"
                         target="_blank"
                         class="btn btn-outline-success btn-sm"
@@ -46,6 +43,20 @@
                         Repository
                     </a>
                 </div>
+            </div>
+        {{ end }}
+        {{ if .ServiceDetails.SentryDashboard }}
+        <div class="footer-links">
+            <div class="footer-buttons sentry-button">
+                <a type="button"
+                    target="_blank"
+                    class="btn btn-outline-success btn-sm"
+                    style="{{ if $hasLogs}} padding-right: 46px; {{ end }}"
+                    href={{ .ServiceDetails.SentryDashboard }}
+                >
+                    Sentry Dashboard
+                </a>
+            </div>
             </div>
         {{ end }}
     </div>

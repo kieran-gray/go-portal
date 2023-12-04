@@ -14,7 +14,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Provides backend support for tools and features, facilitating collaboration and interaction within the system.",
@@ -38,7 +39,8 @@
                         "url": "https://facilitate-service.sit.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/9e92ec98-3b55-4130-a27c-da71fa49dfef"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -50,7 +52,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Implements logic for motivational feedback and manages incentives.",
@@ -74,7 +77,8 @@
                         "url": "https://motivate-service.test.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/b222b4ec-dcbd-418d-881d-8f08bfea9cf4"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -86,7 +90,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Utilizes machine learning or probabilistic algorithms to make predictions based on available data.",
@@ -110,7 +115,8 @@
                         "url": "https://guess-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/bf3f982e-1f41-46c6-b3f7-5beb74db389b"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -122,7 +128,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Manages system resources and optimizes performance.",
@@ -146,7 +153,8 @@
                         "url": "https://relax-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/f896f427-fed7-4001-b7f8-dbec9104913a"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -158,7 +166,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Enhances the user interface with dynamic and interactive elements.",
@@ -182,7 +191,8 @@
                         "url": "https://shine-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/709b3217-b4ee-45a7-9d18-a9006392020c"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -194,7 +204,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Sail the Digital Seas! Navigating data through the vast ocean of bits.",
@@ -218,7 +229,8 @@
                         "url": "https://ship-service.test.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/7034be99-c144-466f-981e-d825f32a8340"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -249,7 +261,8 @@
                         "url": "https://proceed-service.sit.company.net/ui",
                         "logs_url": "https://www.not-a-real-logs-website.com/7f863599-a487-4f73-a843-87ccc86ff143"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Oversees and manages the progression of tasks and workflows.",
@@ -273,7 +286,8 @@
                         "url": "https://proceed-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/aa1ce45c-7bd5-45d3-a16c-2bf6f3beecf7"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -285,7 +299,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Making Text Fancy for No Reason. Because plain text is so last season.",
@@ -303,7 +318,8 @@
                         "url": "https://markdown-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/0e93f691-6b37-4cde-a2d4-7ab433ea39b9"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -315,7 +331,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Because Who Doesn't Love Money Piles? Digitally stacking bills.",
@@ -339,7 +356,8 @@
                         "url": "https://accumulate-money-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/8c83830c-f9e2-46a6-8bbc-6a0b91e8b680"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -351,7 +369,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "No Arks Needed, Just Some Code. Saving your data from the digital apocalypse.",
@@ -363,7 +382,8 @@
                         "url": "https://flood-protection-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/3ef56ae5-b53a-4f02-b7b5-68486f0ab005"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -375,7 +395,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "For the Laziest Prodigies. Press the button, because doing things manually is so last century.",
@@ -399,7 +420,8 @@
                         "url": "https://action-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/849baf92-e556-4741-974a-fa7baf413519"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -411,7 +433,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Guarding Your Data Like a Paranoid Bodyguard. Protecting against cyber intruders, real and imaginary.",
@@ -429,7 +452,8 @@
                         "url": "https://scan-service.staging.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/ab3290be-148e-4a19-ad6a-fbdff0e1aa8f"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -441,7 +465,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Because Microservices Need a Little Drama. Stirring the pot, because who doesn't love drama?",
@@ -459,7 +484,8 @@
                         "url": "https://stir-service.staging.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/7ba8fe21-647d-441b-bf6b-5adfeb58e344"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -471,7 +497,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Making Boring Stuff Sound Interesting. The Shakespeare of digital documentation.",
@@ -489,7 +516,8 @@
                         "url": "https://describe-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/4aaf2230-8712-4825-95de-5350e56a0b09"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -520,7 +548,8 @@
                         "url": "https://figure-service.dev.company.net/ui",
                         "logs_url": "https://www.not-a-real-logs-website.com/373eb260-ba40-4a97-b5c1-e964024ba76f"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Test Service Backend ",
@@ -544,7 +573,8 @@
                         "url": "https://figure-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/fbbfbac3-f782-4844-9807-d73ae9c62833"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -575,7 +605,8 @@
                         "url": "https://compose-service.dev.company.net/ui",
                         "logs_url": "https://www.not-a-real-logs-website.com/a7f4b60d-3162-4999-8b04-c7e9ef4ed821"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Short description of compose service api",
@@ -599,7 +630,8 @@
                         "url": "https://compose-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/ab46ec82-155b-4ee0-9675-c73ef2426e9f"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -611,7 +643,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "History Lessons for Your Data. Time travel without the DeLorean, just for your info.",
@@ -635,7 +668,8 @@
                         "url": "https://reflect-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/b293a29c-df6d-42c4-a4d0-fcc8fe92232a"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -647,7 +681,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Where Files Go to Escape Chaos. Because chaos theory doesn't apply to digital documents.",
@@ -665,7 +700,8 @@
                         "url": "https://filing-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/690b1012-462b-4eb7-8474-108795305d97"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -677,7 +713,8 @@
             "ui": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "Ask Away, Like Google, But Safer. The oracle of questions and somewhat reliable answers.",
@@ -695,7 +732,8 @@
                         "url": "https://enquire-service.dev.company.net/api",
                         "logs_url": "https://www.not-a-real-logs-website.com/0fc9283d-2468-4726-af8f-8c2c08a84867"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             }
         },
         {
@@ -720,12 +758,14 @@
                         "url": "https://observe-service.staging.company.net/ui",
                         "logs_url": "https://www.not-a-real-logs-website.com/ae41a78e-db52-4264-bd2e-50d07233100f"
                     }
-                ]
+                ],
+                "sentry_dashboard": ""
             },
             "api": {
                 "description": "",
                 "repository_url": "",
-                "environments": []
+                "environments": [],
+                "sentry_dashboard": ""
             }
         }
     ]

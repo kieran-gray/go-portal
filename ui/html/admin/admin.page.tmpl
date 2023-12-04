@@ -164,11 +164,7 @@
             const updatedServiceName = document.getElementById(serviceName+"-metadata-Name").value.replaceAll(" ", "")
             paneId = updatedServiceName+"-"+serviceType+"-pane"
             url += "/addEnv/"+updatedServiceName+"&"+serviceType;
-        } else {
-            // Only sort when we are submitting to prevent the service you are
-            // editing from being moved when adding an environment or new service
-            body.services = sortServices(body.services)
-        }
+        } 
         const response = await fetch(url, {
             method: "POST",
             headers: buildHeaders(),
@@ -241,12 +237,6 @@
             "Authorization": (authorization) ? authorization : "Bearer TOKEN_MISSING"
         };
         return headers;
-    }
-
-    function sortServices(services) {
-        return services.sort((a, b) => {
-            return a.metadata.name.toLowerCase().localeCompare(b.metadata.name.toLowerCase());
-        });
     }
 </script>
 
