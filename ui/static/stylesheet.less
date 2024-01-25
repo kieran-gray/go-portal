@@ -1,8 +1,10 @@
 @primary-white: #fff;
 @ui-color: #ff8672;
-@dark-ui-color: #ffbfa1;
+@light-ui-color: #ffbfa1;
+@dark-ui-color: #55180d;
 @api-color: #11bbb5;
-@dark-api-color: #abe6f5;
+@light-api-color: #abe6f5;
+@dark-api-color: #050024;
 @primary-button-color: #79c7c4;
 @primary-button-color-hover: #0db8b3;
 @ok-color: #44bb77;
@@ -12,7 +14,8 @@
 @critical-color: #ff5566;
 @sentry-color-active: #e1567c;
 @sentry-color: #d7738e;
-@datadog-color: #5c2d90;
+@logs-color: #A85F9F;
+@logs-hover-color: #a53c99;
 @default-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
 
 :root {
@@ -27,18 +30,22 @@
     --search-background-color: @primary-white;
     --search-border-color: #ddd;
     --admin-input-background-color: @primary-white;
-    --ui-color: @ui-color;
-    --api-color: @api-color;
+    --ui-background-gradient: linear-gradient(180deg, @ui-color 0%, @light-ui-color 100%);
+    --api-background-gradient: linear-gradient(180deg, @api-color 0%, @light-api-color 100%);
     --pipeline-last-updated-color: #7a7a7a;
     --navigation-highlight: @ui-color;
     --github-color-active: #20262e;
+    --github-outline: #424a53;
     --github-color: #424a53;
+    --logs-background: @logs-color;
+    --logs-hover-color: @logs-hover-color;
     --company-logo: url("logo/logo.svg");
     --settings-icon: url('icons/settings.svg');
     --download-icon: url('icons/download.svg');
     --link-icon: url('icons/link.svg');
     --github-logo: url('icons/github.svg');
     --github-logo-active: url('icons/github-white.svg');
+    --primary-button-background: @primary-button-color;
 }
 
 [data-theme="dark"] {
@@ -49,18 +56,22 @@
     --search-background-color: #242424;
     --search-border-color: #999999;
     --admin-input-background-color: #363636;
-    --ui-color: @dark-ui-color;
-    --api-color: @dark-api-color;
+    --ui-background-gradient: linear-gradient(180deg, @ui-color 0%, @dark-ui-color 100%);
+    --api-background-gradient: linear-gradient(180deg, @api-color 0%, @dark-api-color 100%);
     --pipeline-last-updated-color: #bbbbbb;
     --navigation-highlight: @ui-color;
-    --github-color: #cfcfcf;
-    --github-color-active: #24292f;
+    --github-color: none;
+    --github-color-active: #374b63;
+    --github-outline: #374b63;
+    --logs-background: none;
+    --logs-hover-color: @logs-color;
+    --primary-button-background: none;
     --company-logo: url("logo/logo-white.svg");
     --settings-icon: url('icons/settings-white.svg');
     --download-icon: url('icons/download-white.svg');
     --link-icon: url('icons/link-white.svg');
     --github-logo: url('icons/github-white.svg');
-    --github-logo-active: url('icons/github.svg');
+    --github-logo-active: url('icons/github-white.svg');
 }
 
 * {
@@ -388,11 +399,11 @@ body {
         }
 
         .ui {
-            background: var(--ui-color);
+            background: var(--ui-background-gradient);
         }
 
         .api {
-            background: var(--api-color);
+            background: var(--api-background-gradient);
         }
 
         #service-name {
@@ -568,9 +579,9 @@ body {
                 .service-button {
                     border: 1px solid @primary-button-color;
                     color: @primary-white;
-                    background-color: @primary-button-color;
+                    background-color: var(--primary-button-background);
                     flex-grow: 2;
-                    border-radius: 15px;
+                    border-radius: 5px;
 
                     &:hover {
                         color: @primary-white;
@@ -579,16 +590,18 @@ body {
                 }
 
                 .logs-button {
-                    background-color: @datadog-color;
-                    background-image: url('icons/datadog.svg');
+                    border: 1px solid @logs-color;
+                    background-color: var(--logs-background);
+                    background-image: url('icons/logs.svg');
                     background-size: 20px;
                     background-repeat: no-repeat;
                     background-position: left 50% top 50%;
                     min-width: 16px;
-                    border-radius: 10px;
+                    border-radius: 3px;
 
                     &:hover {
-                        background-color: @datadog-color;
+                        border-color: var(--logs-hover-color);
+                        background-color: var(--logs-hover-color);
                     }
                 }
             }
@@ -598,12 +611,13 @@ body {
 
                 .btn {
                     color: @primary-white;
+                    border: 1px solid var(--github-outline);
                     background-color: var(--github-color);
                     background-image: var(--github-logo-active);
                     background-size: 20px;
                     background-position: right 7px bottom 50%;
                     background-repeat: no-repeat;
-                    border-radius: 15px;
+                    border-radius: 5px;
 
                     &:hover {
                         background-color: var(--github-color-active);
@@ -626,27 +640,6 @@ body {
 
                     &:hover {
                         background-color: @sentry-color-active;
-                    }
-                }
-            }
-
-            .datadog-button {
-                display: flex;
-                flex: 1 0 0%;
-
-                .btn {
-                    border: 1px solid @datadog-color;
-                    color: @datadog-color;
-                    background-image: url('icons/datadog.svg');
-                    background-size: 20px;
-                    background-position: right 7px bottom 50%;
-                    background-repeat: no-repeat;
-                    border-radius: 15px;
-
-                    &:hover {
-                        color: @primary-white;
-                        background-color: @datadog-color;
-                        background-image: url('icons/datadog-white.svg');
                     }
                 }
             }

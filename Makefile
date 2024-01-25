@@ -7,11 +7,10 @@ endif
 install: build
 
 build:
-	docker compose build --no-cache app dev
+	docker compose build
 
 run:
-	docker compose --profile $(ENVIRONMENT) up --build
+	docker compose --profile $(ENVIRONMENT) up --force-recreate
 
 seed:
-	docker compose run --no-deps app sh -c '\
-	/uploadMockFiles --env-file ./app/config/.env.$(ENVIRONMENT)'
+	docker compose run --no-deps dev /uploadMockFiles --env-file ./app/config/.env.local
