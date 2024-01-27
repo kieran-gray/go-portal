@@ -9,12 +9,11 @@ import (
 import dt "github.com/kieran-gray/go-portal/pkg/types"
 
 func GenerateIndexData(
-	displayServices dt.DisplayServices, pipelineFile dt.PipelineFile, workflowFile dt.WorkflowFile,
+	displayServices dt.DisplayServices, workflowFile dt.WorkflowFile,
 ) dt.IndexData {
 	return dt.IndexData{
 		Services:   displayServices.Services,
 		Favourites: displayServices.Favourites,
-		Pipelines:  pipelineFile.Pipelines,
 		Workflows:  workflowFile.Workflows,
 	}
 }
@@ -29,7 +28,7 @@ func GenerateAdminData(
 }
 
 func GenerateServiceCardData(
-	service dt.Service, favourite bool, pipelines map[string]dt.Pipeline, workflows map[string]dt.Workflow,
+	service dt.Service, favourite bool, workflows map[string]dt.Workflow,
 ) dt.ServiceCardData {
 	return dt.ServiceCardData{
 		Service:       service,
@@ -38,7 +37,6 @@ func GenerateServiceCardData(
 		SearchAliases: strings.Join([]string{service.Metadata.Name, service.Metadata.Aliases}, ", "),
 		HasUi:         len(service.Ui.Environments) > 0,
 		HasApi:        len(service.Api.Environments) > 0,
-		Pipelines:     pipelines,
 		Workflows:     workflows,
 	}
 }
@@ -64,22 +62,6 @@ func GenerateAdminCardTabData(service dt.Service, serviceType string) dt.AdminCa
 		ServiceType:    serviceType,
 		Id:             GenerateServiceId(service),
 	}
-}
-
-func generatePipelineData(
-	serviceDetails dt.ServiceDetails, pipelines map[string]dt.Pipeline, serviceId string,
-) dt.PipelineData {
-	pipelineData := dt.PipelineData{
-		Pipeline:    dt.Pipeline{},
-		HasPipeline: false,
-	}
-
-	pipeline, ok := pipelines[serviceDetails.RepositoryUrl]
-	if ok {
-		pipelineData.Pipeline = pipeline
-		pipelineData.HasPipeline = true
-	}
-	return pipelineData
 }
 
 func generateWorkflowData(
@@ -121,7 +103,6 @@ func GenerateServiceCardTabData(serviceCardData dt.ServiceCardData, serviceType 
 		ServiceType:    serviceType,
 		HasLogs:        HasLogs(serviceDetails),
 		Favourite:      serviceCardData.Favourite,
-		Pipeline:       generatePipelineData(serviceDetails, serviceCardData.Pipelines, serviceId),
 		Workflow:       generateWorkflowData(serviceDetails, serviceCardData.Workflows, serviceId),
 		ShowTab:        showTab,
 	}

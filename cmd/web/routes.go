@@ -18,7 +18,6 @@ var indexTemplateFunctions = template.FuncMap{
 	"generateServiceCardFooterButtonData": utils.GenerateServiceCardFooterButtonData,
 	"getFormattedTimeSince":               utils.GetFormattedTimeSince,
 	"sortedByPriority":                    utils.SortedByPriority,
-	"getRepoType":                         utils.GetRepoType,
 	"getWorkflowStatus":                   utils.GetWorkflowStatus,
 }
 
@@ -35,12 +34,12 @@ var templateToFuncMap = map[string]template.FuncMap{
 
 func (app *application) index(w http.ResponseWriter, r *http.Request) {
 	servicesFile := app.getServicesFile(app.config.SERVICES_FILENAME)
-	pipelineFile := app.getPipelineFile(app.config.PIPELINE_DATA_FILENAME)
 	workflowFile := app.getWorkflowFile(app.config.WORKFLOW_DATA_FILENAME)
 	favourites := utils.GetFavourites(r)
 
 	templateData := utils.GenerateIndexData(
-		utils.GetDisplayServices(servicesFile.Services, favourites), pipelineFile, workflowFile,
+		utils.GetDisplayServices(servicesFile.Services, favourites),
+		workflowFile,
 	)
 	app.render(w, r, "index", templateData)
 }
@@ -56,15 +55,30 @@ func (app *application) adminPost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		app.serverError(w, err)
 	}
+	servicesFile.Services = utils.SortServicesByName(servicesFile.Services)
 	err = app.s3Client.Upload(app.config.SERVICES_FILENAME, servicesFile)
 	if err != nil {
 		app.serverError(w, err)
-		messages = append(messages, dt.Message{Status: "failure", Message: "Failed to upload changes to S3"})
+		messages = append(
+			messages,
+			dt.Message{
+				Status:  "failure",
+				Message: "Failed to upload changes to S3",
+			},
+		)
 	} else {
-		messages = append(messages, dt.Message{Status: "success", Message: "Successfully uploaded changes to S3"})
+		messages = append(
+			messages,
+			dt.Message{
+				Status:  "success",
+				Message: "Successfully uploaded changes to S3",
+			},
+		)
 	}
 	app.fileCache[app.config.SERVICES_FILENAME] = servicesFile
-	app.render(w, r, "admin", utils.GenerateAdminData(servicesFile, messages...))
+	app.render(
+		w, r, "admin", utils.GenerateAdminData(servicesFile, messages...),
+	)
 }
 
 func (app *application) adminAddEnvironment(
@@ -76,11 +90,15 @@ func (app *application) adminAddEnvironment(
 	if err != nil {
 		app.serverError(w, err)
 	}
-	servicesFile.Services = utils.AddEnvironment(servicesFile.Services, serviceId, serviceType)
+	servicesFile.Services = utils.AddEnvironment(
+		servicesFile.Services, serviceId, serviceType,
+	)
 	app.render(w, r, "admin", utils.GenerateAdminData(servicesFile))
 }
 
-func (app *application) adminAddService(w http.ResponseWriter, r *http.Request) {
+func (app *application) adminAddService(
+	w http.ResponseWriter, r *http.Request,
+) {
 	servicesFile, err := utils.ParseServicesFromRequest(r)
 	if err != nil {
 		app.serverError(w, err)
@@ -98,15 +116,6 @@ func (app *application) services(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) pipelines(w http.ResponseWriter, r *http.Request) {
-	PipelineFile := app.getPipelineFile(app.config.PIPELINE_DATA_FILENAME)
-	w.Header().Set("Content-Type", "application/json")
-	err := json.NewEncoder(w).Encode(PipelineFile)
-	if err != nil {
-		app.errorLog.Print(err.Error())
-	}
-}
-
 func (app *application) workflows(w http.ResponseWriter, r *http.Request) {
 	workflowFile := app.getWorkflowFile(app.config.WORKFLOW_DATA_FILENAME)
 	w.Header().Set("Content-Type", "application/json")
@@ -116,13 +125,16 @@ func (app *application) workflows(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (app *application) workflowWebhook(w http.ResponseWriter, r *http.Request) {
+func (app *application) workflowWebhook(
+	w http.ResponseWriter, r *http.Request,
+) {
 	webhookWorkflow, err := utils.ParseWebhookWorkflowFromRequest(r)
 	if err != nil {
 		app.errorLog.Print("Failed to read webhook request body")
 		app.serverError(w, err)
 	}
-	if webhookWorkflow.WorkflowRun.HeadBranch != webhookWorkflow.Repository.DefaultBranch {
+	repo := webhookWorkflow.Repository
+	if webhookWorkflow.WorkflowRun.HeadBranch != repo.DefaultBranch {
 		// ignore workflows from non-main branch
 		app.okResponse(w)
 		return
@@ -132,7 +144,7 @@ func (app *application) workflowWebhook(w http.ResponseWriter, r *http.Request) 
 	if workflowFile.Workflows == nil {
 		workflowFile.Workflows = make(map[string]dt.Workflow)
 	}
-	workflowFile.Workflows[webhookWorkflow.Repository.Url] = utils.WebhookWorkflowToWorkflow(
+	workflowFile.Workflows[repo.Url] = utils.WebhookWorkflowToWorkflow(
 		webhookWorkflow,
 	)
 	err = app.s3Client.Upload(app.config.WORKFLOW_DATA_FILENAME, workflowFile)
@@ -158,7 +170,6 @@ func (app *application) routes() *chi.Mux {
 	})
 
 	router.Get("/services.json", app.services)
-	router.Get("/pipelines.json", app.pipelines)
 	router.Get("/workflows.json", app.workflows)
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))

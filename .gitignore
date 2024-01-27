@@ -2,3 +2,4 @@
 *.py
 .vscode
 python_scripts
+.DS_Store

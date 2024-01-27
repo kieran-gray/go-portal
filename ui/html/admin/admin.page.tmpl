@@ -25,10 +25,8 @@
                 <div class="dropdown-content">
                     <div class="row" id="toggle-row" style="flex-wrap: nowrap;">
                         <p class="text" id="toggle-label">Dark Mode</p>
-                        <label class="switch" id="switch" onchange="toggleDarkMode()">
-                            <input type="checkbox" id="dark-mode-toggle">
-                            <span class="slider round"></span>
-                        </label>
+                        <input class="tgl tgl-skewed" id="dark-mode-toggle" type="checkbox" onchange="toggleDarkMode()"/>
+                        <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="dark-mode-toggle"></label>
                     </div>
                     <div class="row" id="toggle-row">
                         <a class="text" id="download-label" href="/services.json" download>Download JSON</a>
@@ -164,11 +162,7 @@
             const updatedServiceName = document.getElementById(serviceName+"-metadata-Name").value.replaceAll(" ", "")
             paneId = updatedServiceName+"-"+serviceType+"-pane"
             url += "/addEnv/"+updatedServiceName+"&"+serviceType;
-        } else {
-            // Only sort when we are submitting to prevent the service you are
-            // editing from being moved when adding an environment or new service
-            body.services = sortServices(body.services)
-        }
+        } 
         const response = await fetch(url, {
             method: "POST",
             headers: buildHeaders(),
@@ -241,12 +235,6 @@
             "Authorization": (authorization) ? authorization : "Bearer TOKEN_MISSING"
         };
         return headers;
-    }
-
-    function sortServices(services) {
-        return services.sort((a, b) => {
-            return a.metadata.name.toLowerCase().localeCompare(b.metadata.name.toLowerCase());
-        });
     }
 </script>
 

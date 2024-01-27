@@ -15,7 +15,6 @@ const mockFilesPath = "./data/"
 
 type scriptConfig struct {
 	SERVICES_FILENAME      string
-	PIPELINE_DATA_FILENAME string
 	WORKFLOW_DATA_FILENAME string
 	BUCKET_CONFIG          S3Client.BucketConfig
 }
@@ -30,7 +29,6 @@ func main() {
 	}
 	config := scriptConfig{
 		SERVICES_FILENAME:      utils.EnsureEnv("SERVICES_FILENAME"),
-		PIPELINE_DATA_FILENAME: utils.EnsureEnv("PIPELINE_DATA_FILENAME"),
 		WORKFLOW_DATA_FILENAME: utils.EnsureEnv("WORKFLOW_DATA_FILENAME"),
 		BUCKET_CONFIG: S3Client.BucketConfig{
 			AWS_ACCESS_KEY:              utils.EnsureEnv("AWS_ACCESS_KEY"),
@@ -61,16 +59,6 @@ func main() {
 		panic(err)
 	}
 	s3Client.Upload(config.WORKFLOW_DATA_FILENAME, workflowFile)
-	if err != nil {
-		panic(err)
-	}
-
-	var pipelineFile dt.PipelineFile
-	pipelineFile, err = utils.ReadFile[dt.PipelineFile](mockFilesPath+config.WORKFLOW_DATA_FILENAME, pipelineFile)
-	if err != nil {
-		panic(err)
-	}
-	s3Client.Upload(config.PIPELINE_DATA_FILENAME, pipelineFile)
 	if err != nil {
 		panic(err)
 	}

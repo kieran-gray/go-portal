@@ -24,9 +24,10 @@ type ServiceMetadata struct {
 }
 
 type ServiceDetails struct {
-	Description   string        `json:"description"`
-	RepositoryUrl string        `json:"repository_url"`
-	Environments  []Environment `json:"environments"`
+	Description     string        `json:"description"`
+	RepositoryUrl   string        `json:"repository_url"`
+	SentryDashboard string        `json:"sentry_dashboard"`
+	Environments    []Environment `json:"environments"`
 }
 
 type Environment struct {
@@ -49,7 +50,6 @@ type DisplayServices struct {
 type IndexData struct {
 	Favourites []Service
 	Services   []Service
-	Pipelines  map[string]Pipeline
 	Workflows  map[string]Workflow
 }
 
@@ -65,7 +65,6 @@ type ServiceCardData struct {
 	Favourite     bool
 	HasUi         bool
 	HasApi        bool
-	Pipelines     map[string]Pipeline
 	Workflows     map[string]Workflow
 }
 
@@ -76,7 +75,6 @@ type ServiceCardTabData struct {
 	ServiceType    string
 	HasLogs        bool
 	Favourite      bool
-	Pipeline       PipelineData
 	Workflow       WorkflowData
 	ShowTab        bool
 }

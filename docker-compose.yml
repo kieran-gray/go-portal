@@ -2,27 +2,26 @@ version: '3.1'
 services:
   app:
     restart: always
-    build: .
+    image: go-portal/prod-image
     env_file:
       - ./config/.env.live
-    ports:
+    ports: &app-ports
       - 8080:8080
-    volumes: 
-      - .:/app
+    volumes: &app-volumes
+      - ./ui:/ui
     profiles:
       - live
 
   dev:
-    image: go-portal-app
-    ports: 
-      - 8080:8080
+    restart: always
+    image: go-portal/dev-image
     env_file:
       - ./config/.env.local
-    volumes: 
-      - .:/app
+    ports: *app-ports
     depends_on:
       - minio
       - createbucket
+    volumes: *app-volumes
     profiles:
       - local
 
@@ -53,6 +52,20 @@ services:
       "
     profiles:
       - local
+
+  prod-image:
+    image: go-portal/prod-image
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: prod
+
+  dev-image:
+    image: go-portal/dev-image
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
 
 volumes:
   minio:

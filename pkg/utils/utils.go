@@ -143,6 +143,13 @@ func ParseServicesFromRequest(r *http.Request) (dt.ServicesFile, error) {
 	return services, nil
 }
 
+func SortServicesByName(services []dt.Service) []dt.Service {
+	sort.SliceStable(services, func(i, j int) bool {
+		return services[i].Metadata.Name < services[j].Metadata.Name
+	})
+	return services
+}
+
 func ParseWebhookWorkflowFromRequest(r *http.Request) (dt.WebhookWorkflow, error) {
 	var workflow dt.WebhookWorkflow
 	err := json.NewDecoder(r.Body).Decode(&workflow)
@@ -207,12 +214,4 @@ func AddEnvironment(services []dt.Service, serviceId string, serviceType string)
 		}
 	}
 	return services
-}
-
-func GetRepoType(repositoryUrl string) string {
-	if strings.Contains(repositoryUrl, "gitlab") {
-		return "gitlab"
-	} else {
-		return "github"
-	}
 }
